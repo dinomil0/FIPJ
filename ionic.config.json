@@ -1,0 +1,8 @@
+{
+  "name": "FYPJ",
+  "integrations": {
+    "capacitor": {},
+    "cordova": {}
+  },
+  "type": "angular"
+}

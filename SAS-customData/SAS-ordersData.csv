@@ -1,0 +1,39 @@
+﻿corp_id,order_id,product,customer_country,id,price,year
+1,1,Stainless Steel Straw,Korea,1, $5.00 ,2021
+1,2,Water Bottle,Indonesia,2, $35.00 ,2021
+1,3,Water Bottle,Singapore,3, $35.00 ,2021
+1,4,Stainless Steel Straw,Indonesia,3, $5.00 ,2021
+1,5,Bamboo ToothBrush,Indonesia,3, $10.00 ,2021
+1,6,Stainless Steel Straw,United Kingdom,3, $5.00 ,2021
+1,7,Bamboo ToothBrush,Indonesia,4, $10.00 ,2021
+1,8,Water Bottle,Korea,5, $35.00 ,2021
+1,9,Bamboo ToothBrush,United Kingdom,6, $10.00 ,2021
+1,10,Stainless Steel Straw,United States,7, $5.00 ,2021
+1,11,Water Bottle,Indonesia,10, $35.00 ,2021
+1,12,Bamboo ToothBrush,Singapore,10, $10.00 ,2021
+1,13,Water Bottle,United States,10, $35.00 ,2021
+1,14,Bamboo ToothBrush,United Kingdom,10, $10.00 ,2021
+1,15,Eco-Friendly Shampoo,Japan,10, $50.00 ,2021
+1,16,Stainless Steel Straw,United Kingdom,10, $5.00 ,2021
+1,17,Stainless Steel Straw,Taiwan,10, $5.00 ,2021
+1,18,Eco-Friendly Shampoo,Singapore,12, $50.00 ,2021
+1,19,Stainless Steel Straw,Taiwan,12, $5.00 ,2021
+1,20,Eco-Friendly Shampoo,Singapore,12, $50.00 ,2021
+1,21,Water Bottle,Singapore,15, $35.00 ,2021
+1,22,Stainless Steel Straw,Korea,16, $5.00 ,2021
+1,23,Eco-Friendly Shampoo,Korea,17, $50.00 ,2021
+1,24,Water Bottle,Singapore,18, $35.00 ,2021
+1,25,Water Bottle,Taiwan,19, $35.00 ,2021
+1,26,Eco-Friendly Shampoo,Taiwan,19, $50.00 ,2021
+1,27,Stainless Steel Straw,Singapore,19, $5.00 ,2021
+1,28,Stainless Steel Straw,Taiwan,19, $5.00 ,2021
+1,29,Bamboo ToothBrush,United States,19, $10.00 ,2021
+1,30,Water Bottle,Singapore,19, $35.00 ,2021
+2,31,Bamboo ToothBrush,Korea,19, $10.00 ,2021
+2,32,Water Bottle,Japan,19, $35.00 ,2021
+2,33,Bamboo ToothBrush,United Kingdom,19, $10.00 ,2021
+2,34,Water Bottle,Japan,20, $35.00 ,2021
+2,35,Stainless Steel Straw,United Kingdom,21, $5.00 ,2021
+2,36,Stainless Steel Straw,Indonesia,22, $5.00 ,2021
+2,37,Water Bottle,United Kingdom,23, $35.00 ,2021
+2,38,Stainless Steel Straw,Japan,23, $5.00 ,2021
