@@ -1,0 +1,74 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title>Accounts</ion-title>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="tabs/tab3"></ion-back-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <img [src]=userImage alt="" class="image-card">
+
+  <ion-item>
+    <ion-label color="medium">
+      {{userId}}
+    </ion-label>
+  </ion-item>
+
+  <form [formGroup]="editUserForm">
+
+    <ion-item>
+      <ion-icon name="person-outline" class="color-icon"></ion-icon>
+      <div class="verticalLine"></div>
+      <ion-label>Email:</ion-label>
+      <ion-input formControlName="email" value="Readonly" readonly></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-icon name="people-outline" class="color-icon"></ion-icon>
+      <div class="verticalLine"></div>
+      <ion-label>Username:</ion-label>
+      <ion-input formControlName="username"></ion-input>
+      <ion-label *ngIf="editUserForm.controls.username.errors && submitted" color="danger">
+        Username is required
+      </ion-label>
+    </ion-item>
+
+    <ion-item>
+      <ion-icon name="lock-closed-outline" class="color-icon"></ion-icon>
+      <div class="verticalLine"></div>
+      <ion-label>Password:</ion-label>
+      <ion-input formControlName="password" value="Readonly" readonly></ion-input>
+      <ion-button expand="block" color="primary" type="submit" (click)="resetpassword()">
+        Reset Password
+      </ion-button>
+    </ion-item>
+
+
+    <ion-item>
+      <ion-icon name="game-controller-outline" class="color-icon"></ion-icon>
+      <div class="verticalLine"></div>
+      <ion-label>Type:</ion-label>
+      <ion-input formControlName="type" value="Readonly" readonly></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-icon name="stats-chart-outline" class="color-icon"></ion-icon>
+      <div class="verticalLine"></div>
+      <ion-label>Status:</ion-label>
+      <ion-select formControlName="status" [selectedText]="status" [(ngModel)]="status" placeholder="Tap to select.."
+        (ionChange)="statusSelected()" required>
+        <ion-select-option *ngFor="let stats of statusArray" [value]="stats">
+          {{stats}}
+        </ion-select-option>
+      </ion-select>
+    </ion-item>
+
+
+    <ion-button expand="block" color="primary" type="submit" (click)="update()">
+      Update
+    </ion-button>
+
+  </form>
+</ion-content>

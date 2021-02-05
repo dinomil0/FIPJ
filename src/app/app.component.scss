@@ -1,0 +1,72 @@
+ion-item.selected {
+    --color: var(--ion-color-success);
+  }
+
+  .menu-header-bg{
+    height: 180px;
+    width: 350px;
+    background: #33cd5f;
+    background: linear-gradient(90deg, #33cd5f, #33cd5f 100%);
+    box-shadow: 0px 1px 10px rgba(3, 3, 3, 0.5);
+    transform: rotate(-15deg);
+    border-radius: 10px 10px 10px 50px;
+    margin-left: -18px;
+    margin-top: -50px;
+    margin-bottom: 60px;
+  }
+
+  .header-content{
+    position: absolute;
+    top: 30px;
+    left: 15px;
+    display: flex;
+    align-items: center;
+  }
+
+  img{
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    border: 7px solid #005c29;
+    margin-right: 14px;
+  }
+
+  h2{
+    font-weight: 300;
+    color: white;
+  }
+
+  h1{
+    font-weight: 300;
+    color: white;
+  }
+
+  p{
+    font-size: 12px;
+    color: white;
+    font-weight: 100;
+    letter-spacing: 0.4px;
+  }
+
+  .menu-items{
+    margin:0px;
+    ion-icon{
+      margin-right:20px;
+      color: #86979f;
+    }
+    ion-item{
+      padding-left:20px;
+      margin-bottom:10px;
+    }
+  }
+
+.ratingScore{
+ ion-col{
+   margin-left:40px;
+   padding:0px;
+   width: 4px;
+ }
+}
+
+// @import url('https://fonts.googleapis.com/css?family=Raleway');
+// $font-family-base: "Raleway", sans-serif !default;

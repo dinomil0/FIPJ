@@ -1,0 +1,27 @@
+#hidden-button {
+    height: 100%;
+    width: 100%;
+    box-shadow: none;
+    -webkit-box-shadow: none;
+    background-color: white;
+}
+
+#hidden-button:focus {
+    outline: none;
+    box-shadow: none;
+}
+#ionicGrid{
+    margin-top: 8px;
+}
+
+#displayAllHistoryTab {
+    border-bottom: 1px solid black;
+}
+
+#displayEarningsTab{
+    border-bottom: 1px solid #DCDCDC;
+}
+
+#displaySpendingsTab {
+    border-bottom: 1px solid #DCDCDC;
+}

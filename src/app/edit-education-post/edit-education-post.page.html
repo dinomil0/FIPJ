@@ -1,0 +1,51 @@
+<ion-header>
+  <ion-toolbar color='secondary-shade'>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="view-education-post"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Edit Post</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-item lines="none">
+    <img [src]=post.image *ngIf="postImage != null" class="ion-padding-top">
+  </ion-item>
+  <form [formGroup]="editPostForm">
+    <ion-item>
+      <ion-icon name="bookmark-outline" class="color-icon"></ion-icon>
+      <div class="verticalLine"></div>
+      <ion-input formControlName="title" value="{{postTitle}}">
+        <ion-label>Title:</ion-label>
+      </ion-input>
+      <ion-label *ngIf="editPostForm.controls.title.errors && submitted" color="danger">
+        Title is required
+      </ion-label>
+    </ion-item>
+
+    <ion-item>
+      <ion-icon name="document-text-outline" class="ion-padding-end ion-padding-top" class="color-icon" id="reader-icon"></ion-icon>
+      <div class="verticalLine"></div>
+      <ion-textarea formControlName="content" value="{{postContent}}">Description:</ion-textarea>
+      <ion-label *ngIf="editPostForm.controls.content.errors && submitted" color="danger">
+        Description is required
+      </ion-label>
+    </ion-item>
+    
+    <ion-item>
+      <ion-icon name="bookmark-outline" class="color-icon"></ion-icon>
+      <div class="verticalLine"></div>
+      <ion-label>Tags:</ion-label>
+      <ion-select multiple="true" formControlName="tags">
+        <ion-select-option *ngFor="let option of tags" [value]="option">
+            {{option}}
+        </ion-select-option>
+      </ion-select>
+    </ion-item>
+
+    <ion-button expand="block" color="secondary" type="submit" (click)="update()">
+      Update
+    </ion-button>
+
+  </form> 
+</ion-content>

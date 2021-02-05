@@ -1,0 +1,115 @@
+<ion-header>
+  <ion-toolbar color="success-shade">
+    <ion-title>Carbon Footprint Summary</ion-title>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="home"></ion-back-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <!-- <ion-grid class="ion-padding ion-margin">
+    <ion-row>
+      <ion-col>
+        <ion-item class="ion-text-center">
+          <ion-icon name="leaf-outline" class="leaf-icon"></ion-icon>
+          <div class="verticalLine"></div>
+          <ion-label>Estimated Carbon Footprint Produced</ion-label>
+        </ion-item>
+        <button (click)="this.Slides.slidePrev()" class="backBtn"> 
+          <ion-icon name="arrow-back"></ion-icon> 
+        </button>
+        <button (click)="this.Slides.slideNext()" class="nextBtn"> 
+          <ion-icon name="arrow-forward"></ion-icon> 
+        </button>
+        <h3 class="ion-text-center">{{carbonFootprint}}kg/CO2</h3>
+      </ion-col>
+      <ion-col>
+        <h3 class="ion-text-center">5</h3>
+      </ion-col>
+    </ion-row>
+  </ion-grid> -->
+
+  <ion-slides #slides class="ion-padding-top ion-padding-bottom ion-margin-top ion-margin-bottom">
+
+    <ion-slide>
+      <ion-col>
+        <ion-item class="ion-text-center">
+          <ion-icon name="leaf-outline" class="leaf-icon"></ion-icon>
+          <div class="verticalLine"></div>
+          <ion-label>Estimated Carbon Footprint Produced</ion-label>
+        </ion-item>
+        <h3 class="ion-text-center">{{carbonFootprint}}&nbsp;kg/CO2</h3>
+      </ion-col>
+    </ion-slide>
+ 
+    <ion-slide>
+      <ion-col>
+        <ion-item class="ion-text-center ion-margin-bottom">
+          <div class="verticalLine"></div>
+          <ion-label>Eco-rating: {{ecoRating}}</ion-label>
+        </ion-item>
+        <!-- 1 star rating -->
+        <ion-label *ngIf="ecoRating == 1">
+          <ion-icon name="leaf-outline" class="leaf-icon leaf-fontsize" ></ion-icon>
+          <ion-icon name="leaf-outline" class="leaf-fontsize"></ion-icon>
+          <ion-icon name="leaf-outline" class="leaf-fontsize"></ion-icon>
+          <ion-icon name="leaf-outline" class="leaf-fontsize"></ion-icon>
+          <ion-icon name="leaf-outline" class="leaf-fontsize"></ion-icon>
+        </ion-label>
+        <!-- 2 star rating -->
+        <ion-label *ngIf="ecoRating == 2">
+          <ion-icon name="leaf-outline" class="leaf-icon leaf-fontsize" ></ion-icon>
+          <ion-icon name="leaf-outline" class="leaf-icon leaf-fontsize"></ion-icon>
+          <ion-icon name="leaf-outline" class="leaf-fontsize"></ion-icon>
+          <ion-icon name="leaf-outline" class="leaf-fontsize"></ion-icon>
+          <ion-icon name="leaf-outline" class="leaf-fontsize"></ion-icon>
+        </ion-label>
+        <!-- 3 star rating -->
+        <ion-label *ngIf="ecoRating == 3">
+          <ion-icon name="leaf-outline" class="leaf-icon leaf-fontsize" ></ion-icon>
+          <ion-icon name="leaf-outline" class="leaf-icon leaf-fontsize"></ion-icon>
+          <ion-icon name="leaf-outline" class="leaf-icon leaf-fontsize"></ion-icon>
+          <ion-icon name="leaf-outline" class="leaf-fontsize"></ion-icon>
+          <ion-icon name="leaf-outline" class="leaf-fontsize"></ion-icon>
+        </ion-label>
+        <!-- 4 star rating -->
+        <ion-label *ngIf="ecoRating == 4">
+          <ion-icon name="leaf-outline" class="leaf-icon leaf-fontsize" ></ion-icon>
+          <ion-icon name="leaf-outline" class="leaf-icon leaf-fontsize"></ion-icon>
+          <ion-icon name="leaf-outline" class="leaf-icon leaf-fontsize"></ion-icon>
+          <ion-icon name="leaf-outline" class="leaf-icon leaf-fontsize" ></ion-icon>
+          <ion-icon name="leaf-outline" class="leaf-fontsize"></ion-icon>
+        </ion-label>
+        <!-- 5 star rating -->
+        <ion-label *ngIf="ecoRating == 5">
+          <ion-icon name="leaf-outline" class="leaf-icon leaf-fontsize"></ion-icon>
+          <ion-icon name="leaf-outline" class="leaf-icon leaf-fontsize"></ion-icon>
+           <ion-icon name="leaf-outline" class="leaf-icon leaf-fontsize"></ion-icon>
+           <ion-icon name="leaf-outline" class="leaf-icon leaf-fontsize"></ion-icon>
+           <ion-icon name="leaf-outline" class="leaf-icon leaf-fontsize"></ion-icon>
+        </ion-label>
+        
+      </ion-col>
+    </ion-slide>
+ </ion-slides>
+
+  <ion-card>
+    <ion-card-header class="ion-no-padding ion-padding-start">
+      <h4>Carbon Emissions Produced from each section</h4>
+    </ion-card-header>
+    <ion-card-content>
+      <canvas #doughnutCanvas></canvas>
+    </ion-card-content>
+  </ion-card>
+  <ion-card>
+    <ion-card-header>
+      <h4>Carbon Footprint Produced - Average Companies</h4>
+    </ion-card-header>
+    <ion-card-content>
+      <canvas #barCanvas></canvas>
+      Summary:<br>
+      {{this.summarycontent}}
+    </ion-card-content>
+  </ion-card>
+</ion-content>

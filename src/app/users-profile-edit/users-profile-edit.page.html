@@ -1,0 +1,62 @@
+<ion-header>
+  <ion-toolbar color="success-shade">
+    <ion-title>Edit Profile</ion-title>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="users-profile"></ion-back-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+
+  <form [formGroup]="editUserProfile">
+
+    <ion-item>
+      <ion-label>Email:</ion-label>
+      <ion-input formControlName="email" value="Disabled" disabled></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label>Username:</ion-label>
+      <ion-input formControlName="username"></ion-input>
+      <ion-label *ngIf="editUserProfile.controls.username.errors && submitted" color="danger">
+        Username is required
+     </ion-label>
+    </ion-item>
+
+    <ion-item>
+      <ion-label>Password:</ion-label>
+      <ion-input formControlName="password" value="Readonly" readonly></ion-input>
+      <ion-button expand="block" class="buttonColor" color="success-shade" fill="outline" type="submit" (click)="resetpassword()">
+        Reset Password
+      </ion-button>
+    </ion-item>
+<!-- 
+    <ion-item>
+      <ion-label>Type:</ion-label>
+      <ion-input formControlName="type" value="Disabled" disabled></ion-input>
+    </ion-item> -->
+
+    <!-- <ion-item>
+      <ion-label>Status:</ion-label>
+        <ion-input formControlName="status" value="Disabled" disabled>
+        </ion-input>
+    </ion-item> -->
+
+    <ion-item>
+      <ion-label>Shipping Address:</ion-label>
+      <ion-input formControlName="address"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label>Bio:</ion-label>
+      <ion-input formControlName="bio"></ion-input>
+    </ion-item>
+
+    <ion-button expand="block" class="buttonColor" color="success-shade" fill="outline" type="submit" (click)="updateUserProfile()">
+      Update
+    </ion-button>
+
+  </form>
+</ion-content>
+

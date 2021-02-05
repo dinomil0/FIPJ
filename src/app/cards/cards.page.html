@@ -1,0 +1,45 @@
+<ion-header>
+  <ion-toolbar color="success-shade">
+    <ion-buttons slot="end">
+      <ion-icon name="close-circle" id="closeIcon" (click)="closeModal()"></ion-icon>
+    </ion-buttons>
+    <ion-title>Add a new Credit/Debit Card</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-card>
+    <form [formGroup]="cardForm">
+      <ion-item class="ion-padding-start ion-padding-end" id="inputText">
+        <ion-label position="floating" style="font-size: 12.5px;">Card number</ion-label>
+        <ion-row>
+          <ion-input maxlength="19" lines="" [value]="textNumber" (ionChange)=cardNum($event) formControlName="cardNumber" type ="tel"></ion-input>
+          <img src="assets/icon/mastercard.png" id="cardMastercard" *ngIf="cardType == 'mastercard' || cardType == ''">
+          <img src="assets/icon/visa.png" id="cardVisa" *ngIf="cardType == 'visa' || cardType == ''">
+        </ion-row>
+      </ion-item>
+
+      <ion-item class="ion-padding-start ion-padding-end" id="inputText">
+        <ion-label position="floating" style="font-size: 12.5px;">Name on card</ion-label>
+        <ion-input formControlName="cardName"></ion-input>
+      </ion-item>
+
+      <ion-row>
+        <ion-col size="8">
+          <ion-item class="ion-padding-start ion-padding-end" id="inputText">
+            <ion-label position="floating" style="font-size: 12.5px;">Expiration (MM/YY)</ion-label>
+            <ion-input maxlength="5" [value]="textExpiration" (ionChange)=expiration($event) formControlName="cardExpiration" type="tel"></ion-input>
+          </ion-item>
+        </ion-col>
+        <ion-col size="4">
+          <ion-item class="ion-padding-start ion-padding-end" id="inputText">
+            <ion-label position="floating" style="font-size: 12.5px;">CVV</ion-label>
+            <ion-input maxlength="3" formControlName="cardCVV" type="tel" ></ion-input>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+      
+      <ion-button expand="block" color="secondary" type="submit" (click)="add()">Add card</ion-button>
+    </form>
+  </ion-card>
+</ion-content>

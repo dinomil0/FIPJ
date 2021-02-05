@@ -1,0 +1,57 @@
+<ion-header>
+  <ion-toolbar color="success-shade">
+    <ion-buttons slot="start">
+      <ion-icon name="close-circle" id="closeIcon" class="ion-margin-start" (click)="close()"></ion-icon>
+    </ion-buttons>
+    <ion-title class="ion-margin-start">Eco-Rating Filter</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-grid class="ion-text-center ion-padding">
+    <ion-row>
+      <ion-col>
+        <ion-icon name="filter-outline" class="filterIcon"></ion-icon>
+        <ion-label>Filter By</ion-label><br>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col>
+        <ion-label class="ion-margin-top" color="medium">Business Eco Rating</ion-label>
+      </ion-col>
+    </ion-row>
+    <ion-row class="ion-margin-top">
+      <ion-col id="ionColAll" (click)=displayAll(0)>
+        <ion-label>
+          All
+        </ion-label>
+      </ion-col>
+      <ion-col id="ionColTwo" (click)=displayTwo(2)>
+        <ion-label>
+          2+
+        </ion-label><br>
+        <ion-icon name="leaf-outline" id="ionColTwoIcon" class="icon-color"></ion-icon>
+        <ion-icon name="leaf-outline" id="ionColTwoIcon"></ion-icon>
+      </ion-col>
+      <ion-col id="ionColThree" (click)=displayThree(3)>
+        <ion-label>
+          3+
+        </ion-label><br>
+        <ion-icon name="leaf-outline" id="ionColThreeIcon"></ion-icon>
+        <ion-icon name="leaf-outline" id="ionColThreeIcon"></ion-icon>
+        <ion-icon name="leaf-outline" id="ionColThreeIcon"></ion-icon>
+      </ion-col>
+      <ion-col id="ionColFour" (click)=displayFour(4)>
+        <ion-label>
+          4+
+        </ion-label><br>
+        <ion-icon name="leaf-outline" id="ionColFourIcon"></ion-icon>
+        <ion-icon name="leaf-outline" id="ionColFourIcon"></ion-icon>
+        <ion-icon name="leaf-outline" id="ionColFourIcon"></ion-icon>
+        <ion-icon name="leaf-outline" id="ionColFourIcon"></ion-icon>
+      </ion-col>
+    </ion-row>
+    <ion-button expand="block" color="success-shade" fill="outline" type="submit" class="ion-margin-top buttonCss" (click)=submit()>View {{productCount}} product(s)</ion-button>
+  </ion-grid>
+  
+</ion-content>

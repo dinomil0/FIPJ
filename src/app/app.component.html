@@ -1,0 +1,58 @@
+<!-- <ion-app>
+  <ion-router-outlet></ion-router-outlet>
+</ion-app> -->
+<ion-app>
+  <ion-split-pane contentId="main-content">
+      <ion-menu menuId="main-menu" contentId="main-content" type="overlay">
+          <ion-content>
+              <div class="menu-header-bg"></div>
+                <div class="header-content">
+                    <img src="assets/icon/greenITlogo.png">
+                    <ion-label>
+                        <h1>Welcome to GreeniT!</h1>
+                        <!-- <h2>GreeniT Pte Ltd &nbsp; <ion-icon name="shield-checkmark-outline"></ion-icon></h2>
+                        <P>Business</P>
+                        <p><ion-icon name="leaf-outline"></ion-icon> 5 <ion-icon name="star-outline"></ion-icon> 4.5</p> -->
+                    </ion-label>
+                </div>
+                
+                
+                <!-- <ion-list lines="none" class="menu-items">
+                    <ion-item>
+                        <ion-icon name="home-outline"></ion-icon>Home
+                    </ion-item>
+                    <ion-item [routerLink]='["/market-place-test-lucius"]'>
+                        <ion-icon name="bag-outline"></ion-icon>Market Place
+                    </ion-item>
+                    <ion-item [routerLink]='["/social-media-test-lucius"]'>
+                        <ion-icon name="people-outline"></ion-icon>Social Media
+                    </ion-item>
+                    <ion-item [routerLink]='["/education-test-lucius"]'>
+                        <ion-icon name="book-outline"></ion-icon>Education
+                    </ion-item>
+                    <ion-item>
+                        <ion-icon name="exit-outline"></ion-icon>Sign Out
+                    </ion-item>
+                </ion-list> -->
+
+
+              <ion-list>
+                  <ion-list-header></ion-list-header>
+                  <ion-menu-toggle auto-hide="false" *ngFor="let p of appPages; let i = index">
+                      <ion-item (click)="selectedIndex = i" routerDirection="root" [routerLink]="[p.url]" lines="none"
+                                detail="false" [class.selected]="selectedIndex == i">
+                          <ion-icon slot="start" [ios]="p.icon + '-outline'" [md]="p.icon + '-sharp'"></ion-icon>
+                          <ion-label>{{ p.title }}</ion-label>
+                      </ion-item>
+                  </ion-menu-toggle>
+
+           
+                
+                  
+           
+              </ion-list>
+          </ion-content>
+      </ion-menu>
+      <ion-router-outlet id="main-content"></ion-router-outlet>
+  </ion-split-pane>
+</ion-app>

@@ -1,0 +1,28 @@
+ion-toolbar {
+    background: var(--ion-color-success-shade);
+    color: #fff;
+    padding-left:20px;
+}
+
+#inputText {
+    color: #a9a9a9;
+}
+
+ion-input {
+    color:black;
+}
+
+#closeIcon{
+    font-size: 20px;
+    padding-right:10px;
+}
+
+#cardMastercard {
+    height:35px;
+    width: 35px;
+}
+
+#cardVisa {
+    height:35px;
+    width:35px;
+}

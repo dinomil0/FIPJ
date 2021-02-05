@@ -1,0 +1,48 @@
+ion-toolbar{
+    background: var(--ion-color-success-shade);
+    color: #fff;
+}
+
+.beans {
+    height: 30px;
+    vertical-align:bottom;
+}
+
+.beans-card {
+    height: 25px;
+    vertical-align:bottom;
+}
+
+.arrow-icon {
+    font-size: 30px;
+    vertical-align:bottom;
+}
+
+.businessCard{
+    display: flex;
+    flex-direction: column;
+    width: 100% !important;
+    margin: 0 !important;
+}
+
+
+.buttonBeans{
+    background: var(--ion-color-success-shade);
+    color: #fff;
+}
+.verticalLine {
+    width:1%;
+    height:50px;
+    margin-top: 0;
+    position: relative;
+    margin-left: 5%;
+  }
+
+  .buttonColor{
+      color: var(--ion-color-success-shade);
+  }
+
+  .NoOfBeans{
+    color: #28ba62;
+    font-size: 2em;
+  }

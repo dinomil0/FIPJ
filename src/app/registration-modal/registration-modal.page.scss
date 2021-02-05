@@ -1,0 +1,22 @@
+ion-toolbar{
+    background: var(--ion-color-success-shade);
+    color: #fff;
+}
+
+ion-content {
+    --padding-top: 2%;
+
+}
+
+
+.roundedRow {
+    border-radius: 20px;
+    border-color: rgb(189, 189, 189);
+    border-style: solid;
+    // background: #DCDCDC;
+}
+
+
+.img-icon{
+    height: 75px;
+}

@@ -1,0 +1,37 @@
+ion-content {
+    --padding-top: 10%;
+    --padding-start: 10%;
+    --padding-end: 10%;
+}
+.verticalLine {
+    width:1%;
+    height:50px;
+    margin-top: 0;
+    position: relative;
+    margin-left: 5%;
+  }
+
+.input-group {
+    background: #fff;
+    border-radius: 10px;
+    overflow: hidden;
+    margin-bottom: 15px;
+}
+ 
+.errors {
+    font-size: small;
+    color: #fff;
+    background: var(--ion-color-danger);
+    padding-left: 15px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+
+ion-toolbar{
+    background: var(--ion-color-success-shade);
+    color: #fff;
+}
+
+.google{
+    --background: #DB4437;
+}

@@ -1,0 +1,36 @@
+ion-toolbar {
+    background: var(--ion-color-success-shade);
+    color: #fff;
+}
+
+#closeIcon {
+    font-size: 20px;
+    padding-right:10px;
+}
+
+.filterIcon {
+    margin-right: 5px;
+}
+
+#ionColAll {
+    background: #73a77e;
+    border: 1px solid #DCDCDC;
+    color: #fff;
+    // #colorchange: color: #fff;
+}
+
+#ionColTwo {
+    border: 1px solid #DCDCDC;
+}
+
+#ionColThree {
+    border: 1px solid #DCDCDC;
+}
+
+#ionColFour {
+    border: 1px solid #DCDCDC;
+}
+.buttonCss{
+    color: var(--ion-color-success-shade);
+}
+
