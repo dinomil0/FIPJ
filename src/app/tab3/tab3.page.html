@@ -1,0 +1,53 @@
+<ion-header [translucent]="true">
+  <ion-toolbar color="primary">
+    <ion-title>
+      Account Management
+    </ion-title>
+    <!-- <ion-buttons slot="start">
+      <ion-menu-button menu="main-menu"></ion-menu-button>
+    </ion-buttons> -->
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-searchbar (ionChange)=search($event) #searchBar class="searchBar"></ion-searchbar>
+  <ion-refresher slot="fixed" (ionRefresh)="refresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+  <div *ngIf="isAdmin">
+    <ion-card *ngFor="let user of allUsers">
+      <ion-card-header [routerLink]="['/edit-accounts', user.uid]">
+        <ion-card-title class="title-words">
+          <ion-grid>
+            <ion-row class="ion-justify-content-evenly">
+              <ion-col id="email" size="10" class="margin-start">
+                {{user.email}}
+              </ion-col>
+              <ion-col size="1">
+                <ion-icon name="create-outline" class="edit-icon"></ion-icon>
+              </ion-col>
+            </ion-row>
+          </ion-grid>
+        </ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <ion-item>
+          <ion-icon name="people-outline" class="color-icon"></ion-icon>
+          <div class="verticalLine"></div>
+          <ion-label class="item-text" id="username">Username: {{user.username}}</ion-label>
+        </ion-item>
+        <ion-item>
+          <ion-icon name="game-controller-outline" class="color-icon"></ion-icon>
+          <div class="verticalLine"></div>
+          <ion-label class="item-text" id="type">Type: {{user.type}}</ion-label>
+        </ion-item>
+        <ion-item>
+          <ion-icon name="stats-chart-outline" class="color-icon"></ion-icon>
+          <div class="verticalLine"></div>
+          <ion-label class="item-text"id="status">Status: {{user.status}}</ion-label>
+        </ion-item>
+      </ion-card-content>
+    </ion-card>
+  </div>
+
+</ion-content>

@@ -1,0 +1,144 @@
+<ion-header>
+  <ion-toolbar color="success-shade">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="login"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Registration</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-grid>
+    <ion-row>
+      <ion-col class="ion-text-center">
+        <img src="assets/icon/greenITlogo.png" class="greenITlogo">
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+  <form [formGroup]="signupForm" (ngSubmit)="signup()">
+    <ion-item>
+      <ion-label>Sign Up as:</ion-label>
+      <ion-select formControlName="category" (ionChange)="onChange($event)" [disabled]="disableSelector">
+        <ion-select-option *ngFor="let option of categories" [value]="option">
+          {{option}}
+        </ion-select-option>
+      </ion-select>
+    </ion-item>
+
+    <!-- User Form -->
+    <div id="user">
+      <ion-item>
+        <ion-icon name="person-outline"></ion-icon>
+        <div class="verticalLine"></div>
+        <ion-input type="email" placeholder="Email" formControlName="email"></ion-input>
+      </ion-item>
+      <div *ngIf="(email.dirty || email.touched) && email.errors" class="errors">
+        <span *ngIf="email.errors?.required">Email is required</span>
+        <span *ngIf="email.errors?.email">Email is invalid</span>
+      </div>
+
+      <ion-item>
+        <ion-icon name="people-outline" class="color-icon"></ion-icon>
+        <div class="verticalLine"></div>
+        <ion-input type="username" placeholder="Username" formControlName="username"></ion-input>
+      </ion-item>
+      <div *ngIf="(username.dirty || username.touched) && username.errors" class="errors">
+        <span *ngIf="username.errors?.required">Username is required</span>
+      </div>
+
+      <!-- Password -->
+      <ion-item>
+        <ion-icon name="lock-closed-outline"></ion-icon>
+        <div class="verticalLine"></div>
+        <ion-input [type]="showPassword ? 'text': 'password'" placeholder="Password" formControlName="password"
+          password-toggle="true"></ion-input>
+        <ion-icon slot="end" color="medium" [name]="passwordToggleIcon" (click)="togglePassword()"></ion-icon>
+      </ion-item>
+      <div *ngIf="(password.dirty || password.touched) && password.errors" class="errors">
+        <span *ngIf="password.errors?.required">Password is required</span>
+        <span *ngIf="password.errors?.minlength">Password needs to be 6 characters</span>
+      </div>
+    </div>
+
+    <!-- Business -->
+    <div id="business">
+      <ion-item>
+        <ion-icon name="person-outline"></ion-icon>
+        <div class="verticalLine"></div>
+        <ion-input type="email" placeholder="Email" formControlName="email"></ion-input>
+      </ion-item>
+      <div *ngIf="(email.dirty || email.touched) && email.errors" class="errors">
+        <span *ngIf="email.errors?.required">Email is required</span>
+        <span *ngIf="email.errors?.email">Email is invalid</span>
+      </div>
+
+      <ion-item>
+        <ion-icon name="lock-closed-outline"></ion-icon>
+        <div class="verticalLine"></div>
+        <ion-input [type]="showPassword ? 'text': 'password'" placeholder="Password" formControlName="password"
+          password-toggle="true"></ion-input>
+        <ion-icon slot="end" color="medium" [name]="passwordToggleIcon" (click)="togglePassword()"></ion-icon>
+      </ion-item>
+      <div *ngIf="(password.dirty || password.touched) && password.errors" class="errors">
+        <span *ngIf="password.errors?.required">Password is required</span>
+        <span *ngIf="password.errors?.minlength">Password needs to be 6 characters</span>
+      </div>
+
+      <ion-item>
+        <ion-icon name="business-outline"></ion-icon>
+        <div class="verticalLine"></div>
+        <ion-input type="username" placeholder="Company Name" formControlName="username"></ion-input>
+      </ion-item>
+      <div *ngIf="(username.dirty || username.touched) && username.errors" class="errors">
+        <span *ngIf="username.errors?.required">Company name is required</span>
+      </div>
+
+      <ion-item>
+        <ion-icon name="briefcase-outline"></ion-icon>
+        <div class="verticalLine"></div>
+        <ion-input type="uen" placeholder="UEN" formControlName="uen"></ion-input>
+      </ion-item>
+      <div *ngIf="(uen.dirty || uen.touched) && uen.errors" class="errors">
+        <span *ngIf="uen.errors?.required">Company name is required</span>
+      </div>
+
+    </div>
+
+    <ion-button type="submit" expand="block" [disabled]="!signupForm.valid">Sign up</ion-button>
+  </form>
+
+
+
+  <!-- Testing purposes -->
+  <!-- <table class="table">
+    <thead>
+      <tr>
+        <th scope="col">Id</th>
+        <th scope="col">Name</th>
+        <th scope="col">UEN</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let item of acraData">
+        <td>{{ item.id }}</td>
+        <td>{{ item.name }}</td>
+        <td>{{ item.uen }}</td>
+        <td style="display: flex">
+          <ion-button color="warning" size="small" routerLink='/student-edit/{{item.id}}'>
+            <ion-icon name="create"></ion-icon>
+          </ion-button>
+          <ion-button color="danger" size="small" (click)="delete(item)">
+            <ion-icon name="trash"></ion-icon>
+          </ion-button>
+        </td>
+      </tr>
+    </tbody>
+  </table> -->
+
+  <!-- <script>
+    function showDiv(select){
+   
+}
+  </script> -->
+
+</ion-content>

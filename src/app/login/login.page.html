@@ -1,0 +1,64 @@
+<ion-header>
+  <ion-toolbar color="success-shade">
+    <ion-title >Greenit Login</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-grid>
+    <ion-row>
+      <ion-col class="ion-text-center">
+        <img src="assets/icon/greenITlogo.png" class="greenITlogo">
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+  <form (ngSubmit)="normallogin()" [formGroup]="loginForm">
+    <div class="input-group">
+      <ion-item>
+        <ion-icon name="person-outline"></ion-icon>
+        <div class="verticalLine"></div>
+        <ion-input type="email" placeholder="Email" formControlName="email"></ion-input>
+      </ion-item>
+      <div *ngIf="(email.dirty || email.touched) && email.errors" class="errors">
+        <span *ngIf="email.errors?.required">Email is required</span>
+        <span *ngIf="email.errors?.email">Email is invalid</span>
+      </div>
+
+      <!-- Password -->
+      <ion-item>
+        <ion-icon name="lock-closed-outline"></ion-icon>
+        <div class="verticalLine"></div>
+        <ion-input [type]="showPassword ? 'text': 'password'" placeholder="Password" formControlName="password"
+          password-toggle="true"></ion-input>
+        <ion-icon slot="end" color="medium" [name]="passwordToggleIcon" (click)="togglePassword()"></ion-icon>
+      </ion-item>
+      <div *ngIf="(password.dirty || password.touched) && password.errors" class="errors">
+        <span *ngIf="password.errors?.required">Password is required</span>
+        <span *ngIf="password.errors?.minlength">Password needs to be 6 characters</span>
+      </div>
+    </div>
+
+    <ion-button type="button" slot="end" expand="block" fill="clear" (click)="resetPassword()">Forget Password?
+    </ion-button>
+    <ion-button type="submit" expand="block" [disabled]="!loginForm.valid">Log in</ion-button>
+    <ion-button type="button" expand="block" color="medium" fill="clear" (click)="chooseRegistration()">Do not have an
+      account? Sign up!
+    </ion-button>
+
+    <ion-button expand="block" class="google" (click)="googleLogin()">
+      <ion-icon slot="start" name="logo-google"></ion-icon>
+      Login with Google
+    </ion-button>
+    <ion-button type="button" (click)="facebookLogin()" expand="block">
+      <ion-icon name="logo-facebook" slot="start"></ion-icon>
+      Sign in with Facebook
+    </ion-button>
+  </form>
+  <!-- <div *ngIf="isGoogleLogin">
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title class="ion-text-center"><b>{{user.displayName}}</b></ion-card-title>
+      </ion-card-header>
+    </ion-card>
+  </div> -->
+</ion-content>

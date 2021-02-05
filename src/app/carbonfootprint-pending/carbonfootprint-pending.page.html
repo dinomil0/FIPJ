@@ -1,0 +1,32 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="tabs/tab2"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Carbon Footprint Review</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content *ngFor="let array of carbonFootprintArray">
+  <ion-list *ngFor="let item of array">
+    <ion-list *ngFor="let user of allUsers">
+      <ion-item *ngIf="user.email == item.email">
+        <ion-thumbnail slot="start">
+          <img [src]=user.imageURL>
+        </ion-thumbnail>
+  
+        <ion-label>
+          <h2>{{user.username}}</h2>
+          <p>{{item.description}}</p>
+          <p>Price: {{item.price}}</p>
+          <p>Number Sold: {{item.numberSold}}</p>
+          <p>Rating: {{item.rating}}/5</p>
+          <p>Seller: {{item.seller}}</p>
+  
+        </ion-label>
+  
+      </ion-item>
+    </ion-list>
+    
+  </ion-list>
+</ion-content>

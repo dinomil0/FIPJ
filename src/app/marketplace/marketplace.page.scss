@@ -1,0 +1,111 @@
+.searchBar {
+    padding: 0px;
+}
+
+.background {
+    background-color: #DCDCDC;
+}
+
+.segmenttoolbarSection{
+    --min-height: 30px;
+    .segSection{
+        display: flex;
+        align-items: flex-end;
+        min-height:30px;
+    }
+}
+
+#hidden-button {
+    height: 100%;
+    width: 100%;
+    box-shadow: none;
+    -webkit-box-shadow: none;
+    background-color: white;
+}
+
+#hidden-button:focus {
+    outline: none;
+    box-shadow: none;
+}
+
+#ionicGrid{
+    margin-top: 8px;
+}
+
+.productsCard {
+    border: 1px solid  #DCDCDC;
+    border-radius: 5px;
+    word-wrap: break-word;
+}
+
+#popularTab {
+    border-bottom: 1px solid black;
+}
+
+#topProductsTab{
+    border-bottom: 1px solid #DCDCDC;
+}
+
+#ecoRatingTab {
+    border-bottom: 1px solid #DCDCDC;
+}
+
+#priceTab {
+    border-bottom: 1px solid #DCDCDC;
+}
+
+.productName {
+    font-size: 12.5px;
+}
+
+.productPrice {
+    color: var(--ion-color-success-shade);
+    font-size: 12.5px;
+}
+
+.productSold {
+    font-size: 11px;
+    padding-top: 2.5px;
+}
+
+a.sort-by:before,
+a.sort-by:after {
+	border: 4px solid transparent;
+	content: "";
+	display: block;
+	height: 0;
+	right: 5px;
+	top: 50%;
+	position: absolute;
+    width: 0;
+}
+
+a.sort-by:before {
+	border-bottom-color: grey;
+	margin-top: -9px;
+}
+a.sort-by:after {
+	border-top-color: grey;
+	margin-top: 1px;
+}
+
+#arrowSortIncreasing {
+    font-size: 14px;
+    color: grey;
+    display: none;
+}
+
+#arrowSortDecreasing {
+    font-size: 14px;
+    color:grey ;
+    display: none;
+}
+
+ion-toolbar{
+    background: var(--ion-color-success-shade);
+    color: #fff;
+}
+#arrow-back {
+    font-size: 25px;
+    padding: 10px;
+}

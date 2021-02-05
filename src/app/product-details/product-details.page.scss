@@ -1,0 +1,31 @@
+.vertical-align-content
+{
+     display: flex;
+    //  align-content: center;
+     align-items: center;
+}   
+
+ion-toolbar{
+     background: var(--ion-color-success-shade);
+     color: #fff;
+ }
+
+ .Iconcss{
+      text-align: bottom;
+ }
+
+ .iconCss{
+     vertical-align:bottom;
+     font-size: 17px;
+ }
+
+ .CustomCol{
+     margin-right: 5px;
+     margin-top: 10px;
+ }
+ .Flagcss{
+      vertical-align: bottom;
+ }
+ .buttonCss{
+      color: var(--ion-color-success-shade);
+ }
