@@ -1,7 +1,0 @@
-<?xml version='1.0' encoding='utf-8'?>
-<resources>
-    <string name="app_name">FYPJ</string>
-    <string name="title_activity_main">FYPJ</string>
-    <string name="package_name">com.nyp.FYPJ</string>
-    <string name="custom_url_scheme">com.nyp.FYPJ</string>
-</resources>
