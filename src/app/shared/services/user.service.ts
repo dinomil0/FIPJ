@@ -4,7 +4,7 @@ import { User } from '../models/user';
 import firebase from 'firebase/app';
 import 'firebase/auth';
 import 'firebase/firestore'
-import { wishList } from '../models/wishlist';
+import { wishList } from '../models/wishList';
 import { carbonFootprint } from "../models/carbonFootprint";
 import { transactionHistory } from "../models/transactionHistory";
 import { Votes } from '../models/votes';
