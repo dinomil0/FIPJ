@@ -1,0 +1,43 @@
+#color {
+    color: #FFFFFF;
+    vertical-align: middle;
+}
+
+ion-toolbar{
+    background: var(--ion-color-success-shade);
+    color: #fff;
+}
+
+#closeIcon{
+    font-size: 20px;
+    padding-right:10px;
+}
+
+#trophyColor {
+    color: gold;
+}
+
+#trophyFirst {
+    color: gold;
+}
+
+#trophySecond {
+    color: silver;
+}
+
+#trophyThird {
+    color: #cd7f32;
+}
+
+#leafColor {
+    color: green;
+}
+
+#usernameText {
+    font-size: 90%;
+}
+
+#ecoRatedText {
+    margin-top: 10px;
+    margin-left: 10px;
+}

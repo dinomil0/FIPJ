@@ -35,6 +35,9 @@ import { CardsPageModule } from './cards/cards.module';
 
 import { Facebook } from '@ionic-native/facebook/ngx';
 import { SignOutModalPageModule } from './sign-out-modal/sign-out-modal.module';
+import { AddToCartPopoverPageModule } from './add-to-cart-popover/add-to-cart-popover.module';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
 import { RegistrationModalPageModule } from './registration-modal/registration-modal.module';
 
 @NgModule({
@@ -53,7 +56,11 @@ import { RegistrationModalPageModule } from './registration-modal/registration-m
     SignOutModalPageModule,
     EditAccountsPageModule,
     AngularFireStorageModule,
-    RegistrationModalPageModule],
+    AddToCartPopoverPageModule,
+    FormsModule,
+    ReactiveFormsModule,
+    CommonModule,
+    RegistrationModalPageModule, FormsModule],
     // NgxIonicImageViewerModule,],
   providers: [
     StatusBar,

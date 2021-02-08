@@ -14,12 +14,38 @@
     <img src= "assets/images/upload_image_placeholder.jpg" *ngIf = "photo == null" (click)="takePhoto()" class="ion-padding-top">
   </ion-item> 
 
+  <ion-card class="guidelineBG">
+    <ion-card-header>
+      <ion-card-title class="white">Guidelines:</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-label class="guidelineText">
+      <ion-icon name="caret-forward-outline"></ion-icon>No inappropriate names for the Project Name
+    </ion-label>
+    <p></p>
+    <p></p>
+    <ion-label class="guidelineText">
+      <ion-icon name="caret-forward-outline"></ion-icon>Pick an Eco Rating from 1 to 5
+    </ion-label>
+    <p></p>
+    <p></p>
+    <ion-label class="guidelineText">
+      <ion-icon name="caret-forward-outline"></ion-icon>No inappropriate words for the description
+    </ion-label>
+    <p></p>
+    <p></p>
+    <ion-label class="guidelineText">
+      <ion-icon name="caret-forward-outline"></ion-icon>Failure to Adhere to the Guidelines will results in the listing being deleted
+    </ion-label>
+    </ion-card-content>
+  </ion-card>
+
   <form [formGroup]="createCFlisting">
     <ion-item>
       <ion-icon name="bookmark-outline" class="color-icon"></ion-icon>
       <div class="verticalLine"></div>
       <ion-input formControlName="nameProduct">
-        <ion-label>Product Name:</ion-label>
+        <ion-label>Project Name:</ion-label>
       </ion-input>
       <ion-label *ngIf="createCFlisting.controls.nameProduct.errors && submitted" color="danger">
         Name is required
@@ -44,7 +70,7 @@
         <ion-label>Goal ($):</ion-label>
       </ion-input>
       <ion-label *ngIf="createCFlisting.controls.goalAmt.errors && submitted" color="danger">
-        provide a Goal Amount
+        Provide a Goal Amount
       </ion-label>
     </ion-item>
 

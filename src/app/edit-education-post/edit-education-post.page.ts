@@ -108,7 +108,7 @@ export class EditEducationPostPage implements OnInit {
           this.postService.update(post);
           this.analyticsService.logEventRoute(this.email);
           this.analyticsService.logEventComments(this.email, this.type+ " updated post");
-          this.router.navigate(['view-education-post']);
+          this.router.navigate(['educationtabs/profile']);
         })
       }
     }

@@ -44,6 +44,7 @@ export class LoginPage implements OnInit {
   emailReset: any;
   userCards: Cards[];
   userIdForCards: string;
+  
 
   constructor(private formB: FormBuilder,
     private alertController: AlertController,
@@ -73,11 +74,11 @@ export class LoginPage implements OnInit {
     // });
   }
 
-  async chooseRegistration(){
+  async chooseRegistration() {
     const modal = await this.modalController.create({
       component: RegistrationModalPage
-      });
-      return await modal.present();
+    });
+    return await modal.present();
     // this.router.navigate([])
   }
 
@@ -91,6 +92,7 @@ export class LoginPage implements OnInit {
 
   }
   async normallogin() {
+    let isLocked = false;
     const loading = await this.loadingController.create({
       spinner: "circular",
       message: "Please wait..."
@@ -106,29 +108,37 @@ export class LoginPage implements OnInit {
             for (var user in this.users) {
               if (this.loginForm.value.email == this.users[user]["email"]) {
                 var uid = this.users[user]["uid"]
-                // console.log("Users", uid)
+                if (this.users[user]["status"] != "active") {
+                  isLocked = true;
+                  break;
+                }
               } else {
                 continue;
               }
             }
-            this.userService.getUserById(uid).then(data => {
-              this.type = data.type
-              if (this.type === "User") {
-                this.analyticsService.logEventRoute(this.loginForm.value.email);
-                this.analyticsService.logEventComments(this.loginForm.value.email, "User Logging In");
-                this.router.navigate(['/home'])
-              }
-              if (this.type === "Business") {
-                this.analyticsService.logEventRoute(this.loginForm.value.email);
-                this.analyticsService.logEventComments(this.loginForm.value.email, "Business Logging In");
-                this.router.navigate(['/home'])
-              }
-              if (this.type === "Admin") {
-                this.analyticsService.logEventRoute(this.loginForm.value.email);
-                this.analyticsService.logEventComments(this.loginForm.value.email, "Admin  Logging In");
-                this.router.navigate(['/tabs/tab1'])
-              }
-            });
+            if(isLocked != true){
+              this.userService.getUserById(uid).then(data => {
+                this.type = data.type
+                if (this.type === "User") {
+                  this.analyticsService.logEventRoute(this.loginForm.value.email);
+                  this.analyticsService.logEventComments(this.loginForm.value.email, "User Logging In");
+                  this.router.navigate(['/home'])
+                }
+                if (this.type === "Business") {
+                  this.analyticsService.logEventRoute(this.loginForm.value.email);
+                  this.analyticsService.logEventComments(this.loginForm.value.email, "Business Logging In");
+                  this.router.navigate(['/home'])
+                }
+                if (this.type === "Admin") {
+                  this.analyticsService.logEventRoute(this.loginForm.value.email);
+                  this.analyticsService.logEventComments(this.loginForm.value.email, "Admin  Logging In");
+                  this.router.navigate(['/tabs/tab1'])
+                }
+              });
+            }else{
+              this.presentAlert("Locked", "Please contact the administrator")
+              isLocked = false;
+            }
           })
 
       }
@@ -342,7 +352,7 @@ export class LoginPage implements OnInit {
                 }
                 accountExist = true;
                 this.analyticsService.logEventRoute(email);
-                  this.analyticsService.logEventComments(email, "User Logging In");
+                this.analyticsService.logEventComments(email, "User Logging In");
                 this.router.navigate(['/home'])
               } else {
               }

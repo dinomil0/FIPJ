@@ -48,7 +48,7 @@ export class ProductFlagPage implements OnInit {
         this.productService.updateFlag(p.id, "false")
         this.presentAlert("Success!", "You have successfully unflagged " + p.name)
       } else {
-        this.presentAlert("Unsuccessful!", "You have not successfully unflagged " + p.name)
+        // this.presentAlert("Unsuccessful!", "You have not successfully unflagged " + p.name)
       }
     })
 

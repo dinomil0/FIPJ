@@ -72,41 +72,21 @@
             <ion-label class="ion-text-wrap">
               {{comment.content}}
             </ion-label>
-            <!-- <div>
-              <ion-label *ngIf="time.isMinutes == true && time.isHours == false">
-                <ion-label class="ion-padding-top" style="font-size: 13px;">A few moments ago</ion-label>
-              </ion-label>
-              <ion-label *ngIf="time.isMinutes == true && time.isHours == false && time.minutes == 1">
-                <ion-label class="ion-padding-top" style="font-size: 13px;">{{time.minutes}} min ago</ion-label>
-              </ion-label>
-              <ion-label *ngIf="time.isMinutes == true && time.isHours == false && comment.minutes != 0 && comment.minutes > 1">
-                <ion-label class="ion-padding-top" style="font-size: 13px;">{{time.minutes}} mins ago</ion-label>
-              </ion-label>
-              <ion-label *ngIf="time.isMinutes == false && time.isHours == true && comment.hours == 1 ">
-                <ion-label class="ion-padding-top" style="font-size: 13px;">{{time.hours}} hour ago</ion-label>
-              </ion-label>
-              <ion-label *ngIf="time.isMinutes == false && time.isHours == true && comment.hours > 1">
-                <ion-label class="ion-padding-top" style="font-size: 13px;">{{time.hours}} hours ago</ion-label>
-              </ion-label>
-              <ion-label *ngIf="time.isMinutes == false && time.isHours == false">
-                <ion-label class="ion-padding-top" style="font-size: 13px;">{{time.datePosted | date:"MMM dd"}}  by {{time.username}}</ion-label>
-              </ion-label>
-            </div> -->
             <div *ngFor="let time of commentsTimeList">
               <ion-label *ngIf="time.isMinutes == true && time.isHours == false && time.minutes == 0 && time.id == comment.id">
-                <ion-label class="ion-padding-top" style="font-size: 13px;" color="medium">A few moments ago</ion-label>
+                <ion-label class="ion-padding-top" style="font-size: 13px;" color="medium">A few moments ago by {{time.username}}</ion-label>
               </ion-label>
               <ion-label *ngIf="time.isMinutes == true && time.isHours == false && time.minutes == 1 && time.id == comment.id">
-                <ion-label class="ion-padding-top" style="font-size: 13px;" color="medium">{{time.minutes}} min ago</ion-label>
+                <ion-label class="ion-padding-top" style="font-size: 13px;" color="medium">{{time.minutes}} min ago by {{time.username}}</ion-label>
               </ion-label>
               <ion-label *ngIf="time.isMinutes == true && time.isHours == false && time.minutes != 0 && time.minutes > 1 && time.id == comment.id">
-                <ion-label class="ion-padding-top" style="font-size: 13px;" color="medium">{{time.minutes}} mins ago</ion-label>
+                <ion-label class="ion-padding-top" style="font-size: 13px;" color="medium">{{time.minutes}} mins ago by {{time.username}}</ion-label>
               </ion-label>
               <ion-label *ngIf="time.isMinutes == false && time.isHours == true && time.hours == 1 && time.id == comment.id">
-                <ion-label class="ion-padding-top" style="font-size: 13px;" color="medium">{{time.hours}} hour ago</ion-label>
+                <ion-label class="ion-padding-top" style="font-size: 13px;" color="medium">{{time.hours}} hour ago by {{time.username}}</ion-label>
               </ion-label>
               <ion-label *ngIf="time.isMinutes == false && time.isHours == true && time.hours > 1 && time.id == comment.id">
-                <ion-label class="ion-padding-top" style="font-size: 13px;" color="medium">{{time.hours}} hours ago</ion-label>
+                <ion-label class="ion-padding-top" style="font-size: 13px;" color="medium">{{time.hours}} hours ago by {{time.username}}</ion-label>
               </ion-label>
               <ion-label *ngIf="time.isMinutes == false && time.isHours == false && time.id == comment.id">
                 <ion-label class="ion-padding-top" style="font-size: 13px;" color="medium">{{time.datePosted | date:"MMM dd"}}  by {{time.username}}</ion-label>

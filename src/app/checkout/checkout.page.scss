@@ -26,3 +26,28 @@ ion-toolbar {
     font-size: 12px;
     float:left;
 }
+
+.verticalLine {
+    width:1%;
+    height:50px;
+    margin-top: 0;
+    position: relative;
+    margin-left: 3%;
+  }
+.addressLine{
+    border-bottom: 0.5px solid grey;
+}
+.totalprice{
+    color: var(--ion-color-success-shade);
+}
+.beans{
+    height: 20px;
+}
+
+#paypal-button-container{
+   margin-top: 4px;
+}
+
+.addressText{
+    overflow: visible;
+}

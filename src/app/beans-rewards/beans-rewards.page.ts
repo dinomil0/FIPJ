@@ -43,6 +43,7 @@ export class BeansRewardsPage implements OnInit {
   fewBeansPic = "assets/beans/few-beans.jpg"
   someBeansPic = "assets/beans/some-beans.jpg"
   manyBeansPic = "assets/beans/many-beans.jpg"
+  username: any;
 
   constructor(private beansRewardsService: BeansRewardsService,
     private authService: AuthService,
@@ -67,6 +68,7 @@ export class BeansRewardsPage implements OnInit {
         this.uid = data[u]["uid"]
         this.type = data[u]["type"]
         this.email = data[u]["email"]
+        this.username = data[u]["username"]
       }
       this.beansRewardsService.getBeansById(this.email).then(bean => {
         this.uid = bean.id
@@ -95,15 +97,18 @@ export class BeansRewardsPage implements OnInit {
         // console.log(beansObject)
         this.beansArray = beansObject["beansHistory"]
         console.log(this.beansArray)
+
         // Get latest date
         this.latestDate = new Date(Math.max.apply(null, this.beansArray.map(function (e) {
           return new Date(e.date);
         })));
   
+        // Get Current Date
         this.currentdate = new Date();
         console.log(this.currentdate, "CurrentDATE")
-  
         console.log(this.latestDate)
+
+        // Comparing Latest Date in Database and Current Date
         if (this.latestDate != null &&
           this.latestDate.getFullYear() == new Date().getFullYear() &&
           this.latestDate.getMonth() == new Date().getMonth() &&
@@ -135,13 +140,7 @@ export class BeansRewardsPage implements OnInit {
 
     this.beansRewardsService.createBeanHistory(this.email, this.beansHistory).then(async beans => {
 
-      const toast = await this.toastController.create({
-        message: 'Added One Bean ' + this.email,
-        duration: 2000,
-        position: 'bottom',
-        color: 'primary'
-      });
-      toast.present();
+      await this.presentToast('You have gotten one more bean!')
 
       this.beansRewardsService.getBeansById(this.email).then(beansObject => {
         this.NoOfBeans = beansObject.beans;
@@ -181,6 +180,24 @@ export class BeansRewardsPage implements OnInit {
     this.analyticsService.logEventRoute(this.email);
     this.analyticsService.logEventComments(this.email, this.type + " clicked into Beans History");
     this.router.navigate(['/beans-history'])
+  }
+
+  async presentToast(message: string) {
+    const toast = await this.toastController.create({
+      message: message,
+      duration: 2000,
+      position: 'top',
+      buttons: [
+        {
+          text: 'Close',
+          role: 'cancel',
+          handler: () => {
+            console.log('Cancel clicked');
+          }
+        }
+      ]
+    });
+    toast.present();
   }
 
 }

@@ -52,24 +52,6 @@ export class CarbonFootprintPage implements OnInit {
         this.email = data[u]["email"]
       }
 
-      this.userService.getBusinessCarbonFootprint(this.uid).then(data =>{
-        for (var index in data.carbonFootprint){
-          if(data.carbonFootprint[index] != null){
-            this.countTodisableButton += 1
-          }
-        }
-        if(this.countTodisableButton > 0){
-          var element = <HTMLInputElement>document.getElementById("carbonFootprintBtn");
-          element.disabled = true;
-          this.router.navigate(['/carbon-footprint-summary'])
-          this.modalController.dismiss()         
-        }else{
-          var element = <HTMLInputElement>document.getElementById("carbonFootprintBtn");
-          element.disabled = false;
-        }
-
-      })
-
     })
     this.carbonFootprintService.carbonFootprint().subscribe(result =>{
       this.carbonFootprintArray = result
@@ -78,6 +60,7 @@ export class CarbonFootprintPage implements OnInit {
   }
 
   ngOnInit() {
+    // Form
     this.TypesOfFuel = ['Petrol', 'Diesel', 'None'];
     this.carbonFootprintForm = this.fb.group({
       fuelPrice: new FormControl(0, [Validators.required]),
@@ -141,6 +124,7 @@ export class CarbonFootprintPage implements OnInit {
 
     }
 
+    // Mutiplying by the number of facilities
     if (this.carbonFootprintForm.value.naturalGasPrice != 0 || this.carbonFootprintForm.value.electricityPrice != 0) {
       this.temptotal = this.totalelctandGas * this.carbonFootprintForm.value.noOfFacilities
     }
@@ -148,7 +132,7 @@ export class CarbonFootprintPage implements OnInit {
     this.totalco2produce += this.temptotal
 
     //Less than 2000 - 5 eco rating, 2000-3000 - 4 eco rating, 3000-4000 - 3 eco rating, 
-    //4000-5000 - 2 eco rating, 5000-6000 - 1 eco rating
+    //4000-5000 - 2 eco rating, More than 5000- 1 eco rating
     if(this.totalco2produce <= 2000){
       this.ecoRating = 5
     }
@@ -165,6 +149,7 @@ export class CarbonFootprintPage implements OnInit {
       this.ecoRating = 1
     }  
     
+    // Replacing empty CarbonFootprintArray
     for (var temp in this.carbonFootprintArray){
       this.carbonFootprintArray[temp]["fuelPrice"] = this.carbonFootprintForm.value.fuelPrice
       this.carbonFootprintArray[temp]["fuelUsed"] = this.carbonFootprintForm.value.fuel
@@ -183,15 +168,11 @@ export class CarbonFootprintPage implements OnInit {
     await this.userService.createCarbonFootprint(this.uid, this.carbonFootprintArray)
     .then(async carbonFp => {
 
-      const toast = await this.toastController.create({
-        message: 'Carbon Footprint will be sent for review ' + carbonFp.id,
-        // cssClass: 'toastCss',
-        duration: 5000,
-        position: 'bottom',
-        color: 'success'
-      });
-      await toast.present();
+      // Present Toast
+      this.presentToast("Your Carbon Footprint will be sent for review")
       this.modalController.dismiss()
+
+      // Google Analytics Log
       this.analyticsService.logEventRoute(this.email);
       this.analyticsService.logEventComments(this.email, this.type+ " sort to display all history");
       this.router.navigate(['/carbon-footprint-summary'])
@@ -219,12 +200,21 @@ export class CarbonFootprintPage implements OnInit {
     return this.carbonFootprintForm.get('noOfFacilities');
   }
 
-
-  // addnewFuelinput(){
-  //   this.fuelPrice++;
-  //   this.fuel++;
-  //   this.carbonFootprintForm.addControl('fuelPrice' + this.fuelPrice, new FormControl());
-  //   this.carbonFootprintForm.addControl('fuel' + this.fuel, new FormControl(Validators.required));
-  // }
-
+  async presentToast(message: string) {
+    const toast = await this.toastController.create({
+      message: message,
+      duration: 2000,
+      position: 'top',
+      buttons: [
+        {
+          text: 'Close',
+          role: 'cancel',
+          handler: () => {
+            console.log('Cancel clicked');
+          }
+        }
+      ]
+    });
+    toast.present();
+  }
 }

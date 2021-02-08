@@ -5,10 +5,28 @@
      align-items: center;
 }   
 
+.top-border {
+     border-top: solid 2px rgba(200, 199, 204, 1) !important;
+   }
+
+ion-buttons {
+     ion-badge {
+		position: absolute;
+		top: -0.2rem;
+		right: -0.01rem;
+          opacity: 0.9;
+          // background-color: red;
+
+		& ~ ion-icon {
+			margin-right: .7rem;
+		}
+	}
+}
+
 ion-toolbar{
      background: var(--ion-color-success-shade);
      color: #fff;
- }
+}
 
  .Iconcss{
       text-align: bottom;
@@ -29,3 +47,24 @@ ion-toolbar{
  .buttonCss{
       color: var(--ion-color-success-shade);
  }
+ .leaf-icon{
+     color: var(--ion-color-success-shade);
+     vertical-align: middle;
+   }
+ 
+.leaf-fontsize{
+     font-size: 15px;
+     vertical-align: middle;
+   }
+
+#price{
+     color: var(--ion-color-success-shade);
+     font-size: 20px;
+     vertical-align: middle;
+   }
+
+#iconCSS{
+     color: black;
+     font-size: 25px;
+     margin-right: 5px;
+}

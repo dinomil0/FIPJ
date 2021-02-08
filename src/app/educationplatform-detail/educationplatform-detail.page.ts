@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { AlertController, ToastController } from '@ionic/angular';
+import { AlertController, LoadingController, ToastController } from '@ionic/angular';
 import { Comments } from '../shared/models/comments';
 import { Notifications } from '../shared/models/notification';
 import { Product } from '../shared/models/products';
@@ -60,6 +60,8 @@ export class EducationplatformDetailPage implements OnInit {
   isHours: boolean;
   minutes: number;
   hours: number;
+  userArray: any;
+  date: any;
 
   constructor(private route: ActivatedRoute,
     private postService: PostsService,
@@ -70,7 +72,8 @@ export class EducationplatformDetailPage implements OnInit {
     private router: Router,
     private toastController: ToastController,
     private commentsService: CommentsService,
-    private analyticsService: AnalyticsService) {
+    private analyticsService: AnalyticsService,
+    private loadingController: LoadingController) {
 
     // var user = this.authService.getCurrentUser()
     // this.email = user.email
@@ -80,20 +83,34 @@ export class EducationplatformDetailPage implements OnInit {
     //   this.router.navigate(['/login'])
     // }
 
+
+
+
+  }
+
+  async ngOnInit() {
+    const loading = await this.loadingController.create({
+      spinner: "circular",
+      message: "Please wait..."
+    });
+    await loading.present();
+
     this.postId = this.route.snapshot.params.id;
 
-    this.postService.getPostByID(this.postId).subscribe(post => {
+    // Update instanly using onSnapshot
+    this.postService.getPostById(this.postId).subscribe(post => {
       this.posts = post
-      this.title = post.title
-      this.subtitle = post.subtitle
-      this.datePosted = post.datePosted
-      this.content = post.content
-      this.writtenBy = post.writtenBy
-      this.votes = post.votes
-      this.tags = post.tags
-      this.image = post.image
-      this.id = post.id
-
+      for (var temp of post) {
+        this.title = temp.title
+        this.subtitle = temp.subtitle
+        this.datePosted = temp.datePosted
+        this.content = temp.content
+        this.writtenBy = temp.writtenBy
+        this.votes = temp.votes
+        this.tags = temp.tags
+        this.image = temp.image
+        this.id = temp.id
+      }
     })
 
     this.votesService.upVote().subscribe(result => {
@@ -140,6 +157,7 @@ export class EducationplatformDetailPage implements OnInit {
             }
 
           }
+          // Upvote Array and DownVote Array
           for (var temp in data) {
             for (var index in this.commentsList) {
               if (data[temp]["postId"] == this.commentsList[index]["id"]) {
@@ -163,19 +181,28 @@ export class EducationplatformDetailPage implements OnInit {
       })
     })
 
+
+    // DateTime comparison
     this.postService.getCommentsDATETIME(this.postId).subscribe(comments => {
       for (let i of comments) {
         let todayDate = new Date;
+        // Date difference
         var dateDiff = todayDate.getTime() - i.datePosted.getTime()
         var dayDiff = dateDiff
         dateDiff = ((dateDiff / (1000 * 60 * 60)) % 24) * 60 | 0
-        dayDiff = ((dayDiff / (1000 * 60 * 60 * 24)) % 7)
+        // dayDiff = ((dayDiff / (1000 * 60 * 60 * 24)) % 7)
+        dayDiff = (dayDiff / (1000 * 60 * 60 * 24))
+
+        console.log(dateDiff)
+        console.log(dayDiff)
+        // Less than an hour difference
         if (dateDiff < 60) {
           i.isMinutes = true;
           i.isHours = false;
           i.minutes = dateDiff
           this.minutes = dateDiff;
         }
+        // More than an hour, less than a day
         else
           if (dateDiff >= 60 && dateDiff < 1440) {
             i.isMinutes = false;
@@ -187,15 +214,16 @@ export class EducationplatformDetailPage implements OnInit {
             i.isMinutes = false;
             i.isHours = false;
           }
+        // More then a day
         if (dayDiff >= 1) {
           i.isMinutes = false;
           i.isHours = false;
         }
-        console.log(i)
-        if(this.commentsTimeList.length < comments.length){
+        // Push into an array
+        if (this.commentsTimeList.length < comments.length) {
           this.commentsTimeList.push(i)
-
         }
+        console.log(this.commentsTimeList)
 
       }
     })
@@ -204,13 +232,12 @@ export class EducationplatformDetailPage implements OnInit {
       this.commentsArray = commentsArray
     })
 
-
+    if (this.commentsArray != null) {
+      loading.dismiss();
+    }
   }
 
-  ngOnInit() {
-
-  }
-
+  // Disable and Enable Button
   checkIfEnabledUp(item) {
     return this.commentsListArrayUp.includes(item);
   }
@@ -225,11 +252,11 @@ export class EducationplatformDetailPage implements OnInit {
     await this.presentConfirm("Up Vote", "Are you sure you want to up vote?").then(confirm => {
       if (confirm == true) {
 
-        //replace with postId
+        // replace with postId
         for (var temp in this.upvoteArray) {
           this.upvoteArray[temp]["postId"] = this.id
         }
-        //add
+        // new vote count
         for (let vote in this.upvoteArray) {
           this.upvote = this.upvoteArray[vote]["upvote"]
           this.downvote = this.upvoteArray[vote]["downvote"]
@@ -239,8 +266,12 @@ export class EducationplatformDetailPage implements OnInit {
             this.newVotes = this.votes - 1
           }
         }
+
+        // replacing votes array
         for (var index in this.votesArray) {
-          if (this.votesArray[index]["postId"] == this.postId) {
+          // console.log(this.votesArray[index]["postId"])
+          // console.log(this.postId)
+          if (this.votesArray[index]["postId"] == this.id) {
             this.votesId = this.votesArray[index]["id"]
             this.newVotesArray.push(this.votesArray[index])
             for (var temp in this.newVotesArray) {
@@ -253,24 +284,33 @@ export class EducationplatformDetailPage implements OnInit {
             this.createVote = true;
           }
         }
+
+        // Create vote
         if (this.createVote == true) {
           this.userService.createVote(this.uid, this.upvoteArray).then(async voteArray => {
-            this.presentToastWithOptions('Up vote', 'Up voted for ' + this.id)
+            this.presentToastWithOptions('Up vote', 'You have successfully up-voted post')
 
+            // Disable button
+            var elementup = <HTMLInputElement>document.getElementById("upVotebtn");
+            elementup.disabled = true;
+            var elementdown = <HTMLInputElement>document.getElementById("downVotebtn");
+            elementdown.disabled = false;
           })
           this.postService.updateVotes(this.id, this.newVotes)
-
           this.analyticsService.logEventRoute(this.email);
           this.analyticsService.logEventComments(this.email, this.type + " up-voted post");
 
         } else {
+          // Update uservotes as user voted previously
           this.userService.updateVotes(this.uid, this.votesId, this.newVotesArray)
-          this.presentToastWithOptions("Up Vote", "You have successfully up-voted")
+          this.presentToastWithOptions("Up Vote", "You have successfully up-voted post")
           this.postService.updateVotes(this.id, this.newVotes)
 
           this.analyticsService.logEventRoute(this.email);
           this.analyticsService.logEventComments(this.email, this.type + " up-voted post");
         }
+
+        // Disable button
         var elementup = <HTMLInputElement>document.getElementById("upVotebtn");
         elementup.disabled = true;
         var elementdown = <HTMLInputElement>document.getElementById("downVotebtn");
@@ -288,13 +328,12 @@ export class EducationplatformDetailPage implements OnInit {
 
     await this.presentConfirm("Down Vote", "Are you sure you want to down vote?").then(confirm => {
       if (confirm == true) {
-        // var elementdown = <HTMLInputElement>document.getElementById("downVotebtn");
-        // elementdown.disabled = true;
-        //replace with postId
+
+        // replace with postId
         for (var temp in this.downvoteArray) {
           this.downvoteArray[temp]["postId"] = this.id
         }
-        //add
+        // new vote count
         for (let vote in this.downvoteArray) {
           this.upvote = this.downvoteArray[vote]["upvote"]
           this.downvote = this.downvoteArray[vote]["downvote"]
@@ -304,9 +343,9 @@ export class EducationplatformDetailPage implements OnInit {
             this.newVotes = this.votes - 1
           }
         }
-
+        // replacing votes array
         for (var index in this.votesArray) {
-          if (this.votesArray[index]["postId"] == this.postId) {
+          if (this.votesArray[index]["postId"] == this.id) {
             this.votesId = this.votesArray[index]["id"]
             this.newVotesArray.push(this.votesArray[index])
             for (var temp in this.newVotesArray) {
@@ -320,22 +359,32 @@ export class EducationplatformDetailPage implements OnInit {
           }
         }
 
+        // Create vote
         if (this.createVote == true) {
           this.userService.createVote(this.uid, this.downvoteArray).then(async downvoteArray => {
-            this.presentToastWithOptions('Down vote', 'Down voted for ' + this.id)
+            this.presentToastWithOptions('Down vote', 'You have successfully down-voted post')
+
+            // Disable button
+            var elementup = <HTMLInputElement>document.getElementById("upVotebtn");
+            elementup.disabled = false;
+            var elementdown = <HTMLInputElement>document.getElementById("downVotebtn");
+            elementdown.disabled = true;
           })
           this.postService.updateVotes(this.id, this.newVotes)
 
           this.analyticsService.logEventRoute(this.email);
           this.analyticsService.logEventComments(this.email, this.type + " down-voted post");
         } else {
+          // Update uservotes as user voted previously
           this.userService.updateVotes(this.uid, this.votesId, this.newVotesArray)
-          this.presentToastWithOptions("Down Vote", "You have successfully down-voted")
+          this.presentToastWithOptions("Down Vote", "You have successfully down-voted post")
           this.postService.updateVotes(this.id, this.newVotes)
 
           this.analyticsService.logEventRoute(this.email);
           this.analyticsService.logEventComments(this.email, this.type + " down-voted post");
         }
+
+        // Disable button
         var elementup = <HTMLInputElement>document.getElementById("upVotebtn");
         elementup.disabled = false;
         var elementdown = <HTMLInputElement>document.getElementById("downVotebtn");
@@ -402,24 +451,41 @@ export class EducationplatformDetailPage implements OnInit {
 
   async sendComment() {
     var textAreaclear = <HTMLInputElement>document.getElementById("commentsMessage");
+    let message = textAreaclear.value
     textAreaclear.value = '';
+    let date = new Date;
     for (var temp in this.commentsArray) {
       this.commentsArray[temp]["content"] = this.message
       this.commentsArray[temp]["username"] = this.username
+      this.commentsArray[temp]["datePosted"] = date
     }
+    // Create comment
     this.postService.createComments(this.postId, this.commentsArray)
 
-    for (let comments in this.commentsArray) {
+    // Replacing notifications array
+    for (let comments of this.commentsArray) {
+      console.log(message)
       this.postService.getCommentById(
         this.postId,
-        this.commentsArray[comments].content,
-        this.commentsArray[comments].username,
-        this.commentsArray[comments].datePosted)
+        comments.content,
+        comments.username,
+        comments.datePosted)
         .subscribe(data => {
           for (let comment of data) {
-            let date = new Date;
-            let n = new Notifications(true, false, this.writtenBy, date, false, false, 0, 0, this.postId, comment.id, this.username, false)
-            this.postService.addNotification(this.postId, n)
+            if (comments.content === message && comments.username === this.username) {
+              console.log(comment)
+              let date = new Date;
+              this.userService.getUser()
+                .subscribe(data => {
+                  this.userArray = data;
+                  for (let users of this.userArray) {
+                    if (users.username != this.username) {
+                      let n = new Notifications(true, false, this.writtenBy, date, false, false, 0, 0, this.postId, comment.id, this.username, false)
+                      this.postService.addNotification(this.postId, n)
+                    }
+                  }
+                })
+            }
           }
         })
     }
@@ -427,6 +493,7 @@ export class EducationplatformDetailPage implements OnInit {
 
   async upVoteComments(commentId: string) {
 
+    // Comparing commentId
     this.postService.getComments(this.postId).subscribe(allComments => {
       for (var index in allComments) {
         if (allComments[index]["id"] == commentId) {
@@ -438,11 +505,12 @@ export class EducationplatformDetailPage implements OnInit {
 
       if (confirm == true) {
 
-        //replace with postId
+        // replace with commentId
         for (var temp in this.upvoteArray) {
           this.upvoteArray[temp]["postId"] = commentId
         }
 
+        // New vote count
         for (let vote in this.upvoteArray) {
           this.upvote = this.upvoteArray[vote]["upvote"]
           this.downvote = this.upvoteArray[vote]["downvote"]
@@ -453,6 +521,7 @@ export class EducationplatformDetailPage implements OnInit {
           }
         }
 
+        // Replacing votes array
         for (var index in this.votesArray) {
           if (this.votesArray[index]["postId"] == commentId) {
             this.votesIdComments = this.votesArray[index]["id"]
@@ -467,25 +536,28 @@ export class EducationplatformDetailPage implements OnInit {
             this.createVote = true;
           }
         }
-        console.log(this.newVotesArraycomments)
+        // console.log(this.newVotesArraycomments)
 
+        // Check if new id, create vote
         if (this.createVote == true) {
           this.userService.createVote(this.uid, this.upvoteArray).then(async upvoteArray => {
-            this.presentToastWithOptions("Up Vote", "You have successfully up-voted")
+            this.presentToastWithOptions("Up Vote", "You have successfully up-voted comments")
           })
           this.postService.updateCommentsVotes(this.id, commentId, this.newVotes)
 
           this.analyticsService.logEventRoute(this.email);
           this.analyticsService.logEventComments(this.email, this.type + " up-voted comments");
         } else {
+          // else update votes
           this.userService.updateVotes(this.uid, this.votesIdComments, this.newVotesArraycomments)
-          this.presentToastWithOptions("Up Vote", "You have successfully up-voted")
+          this.presentToastWithOptions("Up Vote", "You have successfully up-voted comments")
           this.postService.updateCommentsVotes(this.id, commentId, this.newVotes)
 
           this.analyticsService.logEventRoute(this.email);
           this.analyticsService.logEventComments(this.email, this.type + " up-voted comments");
         }
 
+        // editing the commentsUparray and commentsDownarray
         const pos = this.commentsListArrayUp.indexOf(commentId)
         if (this.commentsListArrayUp.includes(commentId) == false) {
           if (this.commentsListArrayDown.includes(commentId) == true) {
@@ -502,6 +574,7 @@ export class EducationplatformDetailPage implements OnInit {
 
   async downVoteComments(commentId) {
 
+    // Comparing commentId
     this.postService.getComments(this.postId).subscribe(allComments => {
       for (var index in allComments) {
         if (allComments[index]["id"] == commentId) {
@@ -513,11 +586,12 @@ export class EducationplatformDetailPage implements OnInit {
 
       if (confirm == true) {
 
-        //replace with postId
+        // replace with commentId
         for (var temp in this.downvoteArray) {
           this.downvoteArray[temp]["postId"] = commentId
         }
 
+        // New vote count
         for (let vote in this.downvoteArray) {
           this.upvote = this.downvoteArray[vote]["upvote"]
           this.downvote = this.downvoteArray[vote]["downvote"]
@@ -527,6 +601,8 @@ export class EducationplatformDetailPage implements OnInit {
             this.newVotes = this.commentsVote - 1
           }
         }
+
+        // Replacing votes array
         for (var index in this.votesArray) {
           if (this.votesArray[index]["postId"] == commentId) {
             this.votesIdComments = this.votesArray[index]["id"]
@@ -543,22 +619,26 @@ export class EducationplatformDetailPage implements OnInit {
         }
         // console.log(this.newVotesArraycomments)
 
+        // Check if new id, create vote
         if (this.createVote == true) {
           this.userService.createVote(this.uid, this.upvoteArray).then(async upvoteArray => {
-            this.presentToastWithOptions("Up Vote", "You have successfully down-voted")
+            this.presentToastWithOptions("Up Vote", "You have successfully down-voted comments")
           })
           this.postService.updateCommentsVotes(this.id, commentId, this.newVotes)
 
           this.analyticsService.logEventRoute(this.email);
           this.analyticsService.logEventComments(this.email, this.type + " down-voted comments");
         } else {
+          // else update votes
           this.userService.updateVotes(this.uid, this.votesIdComments, this.newVotesArraycomments)
-          this.presentToastWithOptions("Up Vote", "You have successfully down-voted")
+          this.presentToastWithOptions("Up Vote", "You have successfully down-voted comments")
           this.postService.updateCommentsVotes(this.id, commentId, this.newVotes)
 
           this.analyticsService.logEventRoute(this.email);
           this.analyticsService.logEventComments(this.email, this.type + " down-voted comments");
         }
+
+        // editing the commentsUparray and commentsDownarray
         const pos = this.commentsListArrayDown.indexOf(commentId)
         if (this.commentsListArrayDown.includes(commentId) == false) {
           if (this.commentsListArrayUp.includes(commentId) == true) {

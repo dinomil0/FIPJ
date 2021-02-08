@@ -101,7 +101,7 @@ export class ProductService {
         querySnapshot.forEach((doc) => {
           for (let sellers of seller) {
             let data = doc.data();
-            if (sellers == data.seller) {
+            if (sellers == data.seller && data.flag != "true") {
               let p = new Product(data.name, data.price, data.numberSold, data.image, data.rating, data.description, data.flag, data.boost, data.expiryDate, data.seller, doc.id);
               if (data.image) {
                 const imageRef = firebase.storage().ref().child(doc.id)
@@ -127,7 +127,17 @@ export class ProductService {
     return new Observable((observer) => {
       this.productsRef.doc(id).get().then((doc) => {
         let data = doc.data();
-        let p = new Product(data.name, data.price, data.numberSold, data.image, data.rating, data.description, data.flag, data.boost, data.expiryDate, data.seller, doc.id);
+        let p = new Product(data.name,
+          data.price,
+          data.numberSold,
+          data.image,
+          data.rating,
+          data.description,
+          data.flag,
+          data.boost,
+          data.expiryDate,
+          data.seller,
+          doc.id);
         if (data.image) {
           const imageRef = firebase.storage().ref().child(doc.id)
           imageRef.getDownloadURL()
@@ -146,6 +156,34 @@ export class ProductService {
     this.productsRef.doc(prodID).update({ 'flag': 'pending' });
   }
 
+  getProductById(id: string) {
+    // Read document '/loans/<id>'
+    return firebase.firestore().collection('products').doc(id).get().then(doc => {
+      let data = doc.data();
+      let product = new Product(data.name,
+        data.price,
+        data.numberSold,
+        data.image,
+        data.rating,
+        data.description,
+        data.flag,
+        data.boost,
+        data.expiryDate,
+        data.seller,
+        doc.id);
+        if (data.image) {
+          const imageRef = firebase.storage().ref().child(doc.id)
+          imageRef.getDownloadURL()
+            .then(url => {
+              product.image = url;
+            }).catch(error => {
+              console.log(error)
+            });
+        }
+      return product;
+    });
+  }
+
   // getProductById(id: string) {
   //   // Read document '/loans/<id>'
   //   return firebase.firestore().collection('products').doc(id).get().then(doc => {
@@ -153,7 +191,6 @@ export class ProductService {
   //     let product = new Product(doc.id, data.name, data.price, data.description, data.numberSold, data.image, data.rating, data.flag, data.boost, data.expiryDate, data.seller);
   //     return product;
   //   });
-
   // }
 
   // getProductsBySeller(): Observable<any> {

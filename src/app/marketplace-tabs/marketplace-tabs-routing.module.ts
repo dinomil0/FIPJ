@@ -21,8 +21,8 @@ const routes: Routes = [
         loadChildren: () => import('../view-product-listing/view-product-listing.module').then(m => m.ViewProductListingPageModule)
       },
       {
-        path: 'tab3',
-        loadChildren: () => import('../tab3/tab3.module').then(m => m.Tab3PageModule)
+        path: 'history',
+        loadChildren: () => import('../marketplace-transaction-history/marketplace-transaction-history.module').then( m => m.MarketplaceTransactionHistoryPageModule)
       },
       {
         path: 'profile',

@@ -1,5 +1,5 @@
 <ion-header>
-  <ion-toolbar color="success-shade">
+  <ion-toolbar color="primary">
     <ion-buttons slot="start">
       <ion-back-button defaultHref="tabs/tab2"></ion-back-button>
     </ion-buttons>
@@ -13,6 +13,13 @@
 
 
 <ion-content >
+
+  <div *ngIf="emptyCheckCrowdFunding.length === 0" class="container">
+    <ion-label class="noListingText">
+    There is no Pending Crowdfunding Listing
+  </ion-label>
+  </div>
+
   <ion-card size-sm *ngFor="let listing of allCrowdfunding">
     <img class="imageAdjust"[src]=listing.image>
     <ion-grid>
@@ -24,8 +31,8 @@
         <ion-icon color="success" name="leaf" *ngIf="listing.ecoRating >= 5"></ion-icon>
       </ion-row>
       <ion-row>
-        <ion-label color="success" class="verifiedText">
-        <ion-icon name="checkmark-done-circle-outline"></ion-icon> Verified
+        <ion-label color="warning" class="pendingText">
+          <ion-icon name="alert-circle-outline"></ion-icon> Pending
       </ion-label>
       </ion-row>
       <ion-row>

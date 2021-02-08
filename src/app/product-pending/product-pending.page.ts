@@ -52,11 +52,11 @@ export class ProductPendingPage implements OnInit {
   async unflagged(prod: Product) {
     await this.presentConfirmUnFlag(prod).then(confirm => {
       if (confirm == true) {
-        // this.productService.updateFlag(prod.id, "false")
+        this.productService.updateFlag(prod.id, "false")
         this.presentAlert("Success!", "You have successfully unflagged " + prod.name)
         this.router.navigate(['/tabs/tab2'])
       } else {
-        this.presentAlert("Unsuccessful!", "You have not successfully unflag " + prod.name)
+        // this.presentAlert("Unsuccessful!", "You have not successfully unflag " + prod.name)
       }
     })
     
@@ -65,10 +65,11 @@ export class ProductPendingPage implements OnInit {
   async flagged(prod: Product) {
     await this.presentConfirmFlag(prod).then(confirm => {
       if (confirm == true) {
+        this.productService.updateFlag(prod.id, "true")
         this.presentAlert("Success!", "You have successfully flagged " + prod.name)
         this.router.navigate(['/tabs/tab2'])
       } else {
-        this.presentAlert("Unsuccessful!", "You have not successfully flag " + prod.name)
+        // this.presentAlert("Unsuccessful!", "You have not successfully flag " + prod.name)
       }
     })
 

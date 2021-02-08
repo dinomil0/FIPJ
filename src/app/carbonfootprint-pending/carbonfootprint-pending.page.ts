@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { ignoreElements } from 'rxjs/operators';
 import { UserService } from '../shared/services/user.service';
 
@@ -14,14 +15,13 @@ export class CarbonfootprintPendingPage implements OnInit {
   carbonFootprintArray: any[] = [];
   allpending: any;
 
-  constructor(private userService: UserService) {
+  constructor(private userService: UserService,
+    private router: Router) {
     this.userService.getPendingCarbonFootprint().subscribe(allpending =>{
       this.allpending = allpending
-      console.log(this.allpending)
-      if(this.allUsers.length == 1){
-        this.carbonFootprintArray.push(this.allUsers)
+      if(this.allpending.length == 1){
+        this.carbonFootprintArray.push(allpending)
       }
-
     })
 
     this.userService.getAllUsers().subscribe(allUsers =>{
@@ -45,4 +45,8 @@ export class CarbonfootprintPendingPage implements OnInit {
   ngOnInit() {
   }
 
+  carbonFootprintDetails(uid: string, username: string){
+    sessionStorage.setItem('corpName', username)
+    this.router.navigate(['/carbonfootprint-detail', uid])
+  }
 }

@@ -8,52 +8,60 @@
 </ion-header>
 
 <ion-content>
-  <ion-card *ngFor="let prod of flaggedProducts">
-    <ion-card-header>
-      <ion-card-title class="title-words">
-        {{prod.name}}
-      </ion-card-title>
-    </ion-card-header>
-    <ion-card-content>
-      <img [src] = "prod.image">
-      <div>
-        <h3>{{prod.description}}</h3>
-        <ion-grid>
-          <ion-row>
-            <ion-col>
-              Number Sold:{{prod.numberSold}}
-            </ion-col>
-            <ion-col>
-              Price:{{prod.price | currency}}
-            </ion-col>
-            <ion-col>
-              Rating:{{prod.rating}}/5
-            </ion-col>
-          </ion-row>
-          <ion-row>
-            Sold by: {{prod.seller}}
-          </ion-row>
-        </ion-grid>
-      </div>
-    </ion-card-content>
-    <ion-grid>
-      <ion-row>
-        <ion-col>
-          <ion-button expand="block" class="unflag" color="success-shade" type="submit" fill="outline" (click)="unflagged(prod)">
-            <ion-label>
-              Unflagged
-            </ion-label>
-          </ion-button>
-        </ion-col>
-        <ion-col>
-          <ion-button expand="block" class="flag" color="danger-shade" type="submit" fill="outline" (click)="flagged(prod)">
-            <ion-label>
-              Flagged
-            </ion-label>
-          </ion-button>
-        </ion-col>
-      </ion-row>
-    </ion-grid>
-    <!-- <div *ngIf="prod.items.length === 0"> There are no pending loans </div> -->
-  </ion-card>
+  <div *ngIf="flaggedProducts.length === 0" class="container">
+    <ion-label class="noListingText">
+    There is no Product pending for review at the moment
+  </ion-label>
+  </div>
+  <div *ngIf="flaggedProducts.length != 0">
+    <ion-card *ngFor="let prod of flaggedProducts">
+      <ion-card-header>
+        <ion-card-title class="title-words">
+          {{prod.name}}
+        </ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <img [src] = "prod.image">
+        <div>
+          <h3>{{prod.description}}</h3>
+          <ion-grid>
+            <ion-row>
+              <ion-col>
+                Number Sold:{{prod.numberSold}}
+              </ion-col>
+              <ion-col>
+                Price:{{prod.price | currency}}
+              </ion-col>
+              <ion-col>
+                Rating:{{prod.rating}}/5
+              </ion-col>
+            </ion-row>
+            <ion-row>
+              Sold by: {{prod.seller}}
+            </ion-row>
+          </ion-grid>
+        </div>
+      </ion-card-content>
+      <ion-grid>
+        <ion-row>
+          <ion-col>
+            <ion-button expand="block" class="unflag" color="success-shade" type="submit" fill="outline" (click)="unflagged(prod)">
+              <ion-label>
+                Unflagged
+              </ion-label>
+            </ion-button>
+          </ion-col>
+          <ion-col>
+            <ion-button expand="block" class="flag" color="danger-shade" type="submit" fill="outline" (click)="flagged(prod)">
+              <ion-label>
+                Flagged
+              </ion-label>
+            </ion-button>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+      <!-- <div *ngIf="prod.items.length === 0"> There are no pending loans </div> -->
+    </ion-card>
+  </div>
+  
 </ion-content>

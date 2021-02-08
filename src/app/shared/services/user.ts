@@ -17,7 +17,8 @@ export class User {
       public imageURL: string,
       public uid?:string,
       public shippingAddress?: string,
-      public bio?: string
+      public bio?: string,
+      public ecorating?: number
       ) { 
         if(imageURL == ""){this.imageURL = "../assets/images/business-person.png"}
         

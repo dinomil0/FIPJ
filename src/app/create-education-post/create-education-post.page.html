@@ -1,15 +1,12 @@
 <ion-header>
   <ion-toolbar color='secondary-shade'>
-    <ion-buttons slot="start">
-      <ion-back-button defaultHref="educationtabs/home"></ion-back-button>
-    </ion-buttons>
     <ion-title>Create a new post</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
   <ion-item lines="none" class="placeholder">
-    <img [src]=post.image *ngIf="photo != null" class="ion-padding-top" (click)="takePhoto()">
+    <img [src]=photo *ngIf="photo != null" class="ion-padding-top" (click)="takePhoto()">
     <img src= "assets/images/upload_image_placeholder.jpg" *ngIf = "photo == null" (click)="takePhoto()" class="ion-padding-top">
   </ion-item> 
 

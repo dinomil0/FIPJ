@@ -1,26 +1,52 @@
 <ion-header>
-  <ion-toolbar color="success">
-    <ion-buttons slot="start">
-      <ion-back-button defaultHref="home"></ion-back-button>
-    </ion-buttons>
-    <ion-title>Signing Out!</ion-title>
-  </ion-toolbar>
+  <div *ngIf="this.isUsernBiz">
+    <ion-toolbar color="success">
+      <ion-buttons slot="start">
+        <ion-back-button defaultHref="home" color="dark"></ion-back-button>
+      </ion-buttons>
+      <ion-title color="dark">Signing Out!</ion-title>
+    </ion-toolbar>
+  </div>
+  <div *ngIf="this.isAdmin">
+    <ion-toolbar color="primary">
+      <ion-buttons slot="start">
+        <ion-back-button defaultHref="home"></ion-back-button>
+      </ion-buttons>
+      <ion-title>Signing Out!</ion-title>
+    </ion-toolbar>
+  </div>
 </ion-header>
 
-<ion-content color="light">
-  <div class="signout">
-    <ion-card class="signoutCard" >
-    <ion-label><h1>
-    Are you sure you want to Sign Out?
-  </h1>
-  </ion-label>
-  <ion-button color="success" expand="block" (click)="signout()" >
-    <ion-icon name="log-out-outline"></ion-icon><ion-label>Sign Me Out</ion-label>
-  </ion-button>
-</ion-card>
+<ion-header>
 
-</div>
+</ion-header>
 
-
-
+<ion-content color="light" >
+  <div class="signout" *ngIf="this.isUsernBiz">
+    <ion-card class="signoutCard">
+      <ion-label>
+        <h1>
+          Are you sure you want to Sign Out?
+        </h1>
+      </ion-label>
+      <ion-button color="success" expand="block" (click)="signout()">
+          <ion-icon name="log-out-outline" color="dark"></ion-icon>
+          <div class="verticalLine"></div>
+          <ion-label color="dark">Sign Me Out</ion-label>
+        </ion-button>
+    </ion-card>
+  </div>
+  <div class="signout" *ngIf="this.isAdmin">
+    <ion-card class="signoutCard">
+      <ion-label>
+        <h1>
+          Are you sure you want to Sign Out?
+        </h1>
+      </ion-label>
+        <ion-button color="primary" expand="block" (click)="signout()">
+          <ion-icon name="log-out-outline"></ion-icon>
+          <ion-label>Sign Me Out</ion-label>
+        </ion-button>
+    </ion-card>
+  </div>
 </ion-content>

@@ -4,6 +4,7 @@ import { wishList } from "./wishlist";
 import { Cards } from "./cards";
 import { Searchtool } from "./searchtool";
 import { Votes } from "./votes";
+import { Cart } from "./cart";
 
 export class User {
     // uid: string;
@@ -15,6 +16,7 @@ export class User {
     cards: Cards[] [];
     searchList: Searchtool[] = [];
     votes: Votes[] = [];
+    cart: Cart[] = [];
 
     constructor(
       public email: any,
@@ -27,7 +29,10 @@ export class User {
       public uid?: string,
       public shippingAddress?: string,
       public bio?: string,
-      public reportId?: any
+      public reportId?: any,
+      public ecorating?: string,
+      public ecoStatus?: string,
+      public revenue?: number,
       ) { if(imageURL == ""){this.imageURL = "../assets/images/business-person.png"}
         
     }

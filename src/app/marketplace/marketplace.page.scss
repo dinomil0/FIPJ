@@ -15,6 +15,10 @@
     }
 }
 
+.image-height{
+    height: 188.500px;
+  }
+
 #hidden-button {
     height: 100%;
     width: 100%;
@@ -101,6 +105,19 @@ a.sort-by:after {
     display: none;
 }
 
+ion-buttons {
+    ion-badge {
+       position: absolute;
+       top: -0.2rem;
+       right: -0.01rem;
+         opacity: 0.9;
+         // background-color: red;
+
+       & ~ ion-icon {
+           margin-right: .7rem;
+       }
+   }
+}
 ion-toolbar{
     background: var(--ion-color-success-shade);
     color: #fff;

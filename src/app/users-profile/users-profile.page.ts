@@ -8,12 +8,13 @@ import 'firebase/storage';
 import { AuthService } from '../shared/services/auth.service';
 import { ProductService } from '../shared/services/product.service';
 import { Product } from '../shared/models/products';
-import { IonSearchbar } from '@ionic/angular';
+import { IonSearchbar, ModalController } from '@ionic/angular';
 import { Router } from '@angular/router';
 import { AnalyticsService } from '../shared/services/analytics.service';
 
 import { Plugins, CameraResultType, CameraSource } from '@capacitor/core';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
+import { CardsSelectPage } from '../cards-select/cards-select.page';
 
 @Component({
   selector: 'app-users-profile',
@@ -46,7 +47,8 @@ export class UsersProfilePage implements OnInit {
     private productService: ProductService,
     private router: Router,
     private sanitizer: DomSanitizer,
-    private analyticsService: AnalyticsService) {
+    private analyticsService: AnalyticsService,
+    private modalController: ModalController) {
     this.userService.getUserInstant().subscribe(data => {
       this.userData = data
       for (var u in data) {
@@ -65,10 +67,7 @@ export class UsersProfilePage implements OnInit {
         this.isBusiness = false;
       }
     })
-    // this.productService.getProductsBySeller().subscribe(prod => {
-    //   this.productList = this.allProducts = prod
-    //   console.log(this.allProducts)
-    // })
+ 
     this.userService.getUser()
       .subscribe(data => {
         for (let user of data) {
@@ -105,10 +104,13 @@ export class UsersProfilePage implements OnInit {
     this.router.navigate(['/beans-rewards'])
   }
 
-  RouteToCard() {
+  async RouteToCard() {
     this.analyticsService.logEventRoute(this.userEmail);
     this.analyticsService.logEventComments(this.userEmail, this.userType + " clicked into Cards");
-    this.router.navigate(['/cards'])
+    const modal = await this.modalController.create({
+      component: CardsSelectPage
+      });
+      return await modal.present();
   }
 
   async takePhoto() {

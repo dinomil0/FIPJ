@@ -1,0 +1,62 @@
+ion-toolbar{
+    background: var(--ion-color-success-shade);
+    color: #fff;
+}
+
+#color {
+    color: white
+}
+
+#ionGridCss {
+    margin-top: 7.5%;
+    margin-left: 7.5%;
+}
+
+.notification {
+    color: white;
+    font-size: 20px;
+    text-decoration: none;
+    position: relative;
+    display: inline-block;
+    border-radius: 2px;
+    margin-right: 10%;
+    margin-top: 10px;
+  }
+  
+.notification .badge {
+    position: absolute;
+    top: -10px;
+    right: -10px;
+    padding: 2px 5px;
+    border-radius: 50%;
+    background: red;
+    color: white;
+}
+
+ion-avatar {
+    height: 50px;
+    width: 50px;
+}
+
+.username {
+    font-size: 20px;
+}
+
+.gridCSS {
+    margin-top:10%;
+}
+
+#hidden-button {
+    box-shadow: none;
+    -webkit-box-shadow: none;
+    background-color: white;
+}
+
+#hidden-button:focus {
+    outline: none;
+    box-shadow: none;
+}
+
+button {
+    background:  var(--ion-color-danger-shade);
+}

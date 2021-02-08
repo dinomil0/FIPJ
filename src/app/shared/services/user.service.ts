@@ -1,5 +1,5 @@
-import { Injectable, ɵConsole } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Injectable } from '@angular/core';
+import { EmptyError, Observable } from 'rxjs';
 import { User } from '../models/user';
 import firebase from 'firebase/app';
 import 'firebase/auth';
@@ -8,8 +8,10 @@ import { wishList } from '../models/wishlist';
 import { carbonFootprint } from "../models/carbonFootprint";
 import { transactionHistory } from "../models/transactionHistory";
 import { Votes } from '../models/votes';
+import { Cart } from '../models/cart';
 import { EducationRecommendations } from '../models/educationRecommendations';
-import { ThisReceiver } from '@angular/compiler';
+import { element } from 'protractor';
+import { ProductService } from './product.service';
 
 
 // import { data } from 'jquery';
@@ -54,8 +56,11 @@ export class UserService {
               data.uen,
               doc.id,
               doc.data().shippingAddress,
-              doc.data().bio);
-              array.push(user);
+              doc.data().bio,
+              doc.data().reportId,
+              doc.data().ecorating,
+              doc.data().ecoStatus);
+            array.push(user);
 
             // if (data.imageURL) {
             //   user.imageURL = data.imageURL;
@@ -67,7 +72,7 @@ export class UserService {
             //       console.log('Error: Read image fail ' + error);
             //     });
             // }
-            
+
           } catch (error) { }
 
         });
@@ -102,11 +107,12 @@ export class UserService {
     });
   }
 
-  update(u: User) {
-    const ref = this.userRef.doc(u.uid);
+  update(id: string, username: string, status: string) {
+    const ref = this.userRef.doc(id);
 
     ref.update({
-      status: u.status,
+      username: username,
+      status: status,
     });
   }
 
@@ -164,7 +170,7 @@ export class UserService {
             collection.forEach(doc => {
               try {
                 let user = new User(doc.data().email, doc.data().username, doc.data().password, doc.data().type,
-                  doc.data().status, doc.data().imageURL, doc.data().uen, doc.id, doc.data().shippingAddress, doc.data().bio, doc.data().reportId);
+                  doc.data().status, doc.data().imageURL, doc.data().uen, doc.id, doc.data().shippingAddress, doc.data().bio, doc.data().reportId, '', '' , doc.data().revenue);
                 if (doc.data().imageURL) {
                   user.imageURL = doc.data().imageURL;
                   const imageRef = firebase.storage().ref().child(doc.id);
@@ -176,28 +182,97 @@ export class UserService {
                     });
                 }
                 array.push(user);
+              } catch (error) { console.log(error) }
+            });
+            observer.next(array);
+          });
+        }
+      });
+    })
+  }
+
+  getUserCart(): Observable<any> {
+    return new Observable(observer => {
+      firebase.auth().onAuthStateChanged(function (user) {
+        if (user) {
+          firebase.firestore().collection('users').where('email', '==', user.email).get().then(collection => {
+            let array = [];
+            collection.forEach(doc => {
+              try {
+                let user = new User(doc.data().email, doc.data().username, doc.data().password, doc.data().type,
+                  doc.data().status, doc.data().imageURL, doc.data().uen, doc.id, doc.data().shippingAddress, doc.data().bio);
+                array.push(user);
+
+                let dbCart = firebase.firestore().collection('users/' + doc.id + '/cart');
+                dbCart.onSnapshot(itemsCollection => {
+                  user.cart = [];
+                  itemsCollection.forEach(itemDoc => {
+                    let cartObj = new Cart(itemDoc.id, itemDoc.data().quantity, null, itemDoc.data().name, itemDoc.data().price);
+                    if (cartObj.imgURL == null) {
+                      const imageRef = firebase.storage().ref().child(itemDoc.id)
+                      imageRef.getDownloadURL()
+                        .then(url => {
+                          cartObj.imgURL = url;
+                        }).catch(error => {
+                          console.log(error)
+                        })
+                    }
+                    user.cart.push(cartObj);
+                  });
+
+                  observer.next(user.cart);
+                })
+              } catch (error) { console.log(error) }
+            });
+            // observer.next(array);
+          });
+        }
+      });
+    })
+  }
+
+  getAllBusiness(): Observable<any> {
+    return new Observable(observer => {
+      firebase.auth().onAuthStateChanged(function (user) {
+        if (user) {
+          firebase.firestore().collection('users').where('type', '==', "Business").get().then(collection => {
+            let array = [];
+            collection.forEach(doc => {
+              try {
+                if (doc.data().ecoStatus == "approved") {
+                  let user = new User(doc.data().email, doc.data().username, doc.data().password, doc.data().type,
+                    doc.data().status, doc.data().imageURL, doc.data().uen, doc.id, doc.data().shippingAddress, doc.data().bio, doc.data().reportId, doc.data().ecorating, doc.data().ecoStatus);
+                  if (doc.data().imageURL) {
+                    user.imageURL = doc.data().imageURL;
+                    const imageRef = firebase.storage().ref().child(doc.id);
+                    imageRef.getDownloadURL()
+                      .then(url => {
+                        user.imageURL = url;
+                      }).catch(error => {
+                        console.log('Error: Read image fail ' + error);
+                      });
+                  }
+                  array.push(user);
+                }
               } catch (error) { }
             });
             observer.next(array);
           });
         }
       });
-
-
     })
-
   }
 
   getUserInstant(): Observable<any> {
     return new Observable(observer => {
       firebase.auth().onAuthStateChanged(function (user) {
-        if (user) {     
+        if (user) {
           firebase.firestore().collection('users').where('email', '==', user.email).onSnapshot(collection => {
             let array = [];
             collection.forEach(doc => {
               try {
                 let user = new User(doc.data().email, doc.data().username, doc.data().password, doc.data().type,
-                  doc.data().status, doc.data().imageURL, doc.data().uen, doc.id, doc.data().shippingAddress, doc.data().bio);
+                  doc.data().status, doc.data().imageURL, doc.data().uen, doc.id, doc.data().shippingAddress, doc.data().bio, '', '', '',doc.data().revenue);
                 if (doc.data().imageURL) {
                   user.imageURL = doc.data().imageURL;
                   const imageRef = firebase.storage().ref().child(doc.id);
@@ -218,6 +293,16 @@ export class UserService {
     });
   }
 
+  getCurrentUserID() {
+    return new Observable(observer => {
+      let userEmail = firebase.auth().currentUser.email;
+      firebase.firestore().collection('users').where('email', '==', userEmail).get().then(collection => {
+        collection.forEach(element => {
+          observer.next(String(element.id))
+        });
+      })
+    })
+  }
 
 
   updateUserProfile(u: User) {
@@ -238,25 +323,33 @@ export class UserService {
   }
 
   createCarbonFootprint(id: string, carbonFootprint: carbonFootprint[]) {
-      for (let carbon of carbonFootprint) {
-        return firebase.firestore().collection('users/' + id + '/carbonFootprint/').add({
+    for (let carbon of carbonFootprint) {
+      const ref = this.userRef.doc(id)
+      ref.update({
+        ecorating: carbon.ecoRating,
+        ecoStatus: "pending"
+      })
+    }
 
-          fuelPrice: carbon.fuelPrice,
-          fuelUsed: carbon.fuelUsed,
-          numOfVehicles: carbon.numOfVehicles,
-          fuelco2: carbon.fuelco2,
-          electPrice: carbon.electPrice,
-          electco2: carbon.electco2,
-          gasPrice: carbon.gasPrice,
-          gasco2: carbon.gasco2,
-          numOfFacilities: carbon.numOfFacilities,
-          carbonFootprint: carbon.carbonFootprint,
-          dateFilled: carbon.dateFilled,
-          status: carbon.status,
-          ecoRating: carbon.ecoRating,
-          email: carbon.email
-        })
-      }
+    for (let carbon of carbonFootprint) {
+      return firebase.firestore().collection('users/' + id + '/carbonFootprint/').add({
+
+        fuelPrice: carbon.fuelPrice,
+        fuelUsed: carbon.fuelUsed,
+        numOfVehicles: carbon.numOfVehicles,
+        fuelco2: carbon.fuelco2,
+        electPrice: carbon.electPrice,
+        electco2: carbon.electco2,
+        gasPrice: carbon.gasPrice,
+        gasco2: carbon.gasco2,
+        numOfFacilities: carbon.numOfFacilities,
+        carbonFootprint: carbon.carbonFootprint,
+        dateFilled: carbon.dateFilled,
+        status: carbon.status,
+        ecoRating: carbon.ecoRating,
+        email: carbon.email
+      })
+    }
   }
 
   getBusinessCarbonFootprint(id: string) {
@@ -317,7 +410,7 @@ export class UserService {
         collection.forEach(doc => {
           try {
             let data = doc.data()
-            if(data.type == "Business"){
+            if (data.type == "Business") {
               let user = new User(
                 data.email,
                 data.username,
@@ -327,16 +420,16 @@ export class UserService {
                 data.imageURL,
                 data.uen,
                 doc.id);
-                array.push(user);
+              array.push(user);
 
               let dbComments = firebase.firestore().collection('users/' + doc.id + '/carbonFootprint/');
               dbComments.onSnapshot(itemsCollection => {
                 user.carbonFootprint = [];
                 itemsCollection.forEach(itemDoc => {
                   let carbon = new carbonFootprint(itemDoc.data().fuelPrice, itemDoc.data().fuelUsed, itemDoc.data().numOfVehicles,
-                  itemDoc.data().fuelco2, itemDoc.data().electPrice, itemDoc.data().electco2, itemDoc.data().gasPrice,
-                  itemDoc.data().gasco2, itemDoc.data().numbOfFacilities, itemDoc.data().carbonFootprint, itemDoc.data().dateFilled,
-                  itemDoc.data().status, itemDoc.data().ecoRating, itemDoc.data().email, itemDoc.id);
+                    itemDoc.data().fuelco2, itemDoc.data().electPrice, itemDoc.data().electco2, itemDoc.data().gasPrice,
+                    itemDoc.data().gasco2, itemDoc.data().numbOfFacilities, itemDoc.data().carbonFootprint, itemDoc.data().dateFilled,
+                    itemDoc.data().status, itemDoc.data().ecoRating, itemDoc.data().email, itemDoc.id);
                   user.carbonFootprint.push(carbon);
                 });
                 observer.next(user.carbonFootprint)
@@ -350,7 +443,19 @@ export class UserService {
     });
   }
 
+  updateCarbonFootprint(id: string, cFpId: string, status: string) {
+    const ref = this.userRef.doc(id + '/carbonFootprint/' + cFpId);
+    const ref2 = this.userRef.doc(id)
 
+    ref.update({
+      status: status
+    });
+
+    ref2.update({
+      ecoStatus: status
+    })
+
+  }
 
   getPendingCarbonFootprint(): Observable<any> {
     return new Observable(observer => {
@@ -371,23 +476,23 @@ export class UserService {
               doc.id,
               doc.data().shippingAddress,
               doc.data().bio);
-              array.push(user);
-              let dbComments = firebase.firestore().collection('users/' + doc.id + '/carbonFootprint/');
-              dbComments.where("status", "==", "pending").onSnapshot(itemsCollection => {
-                user.carbonFootprint = []; // Empty array
-                itemsCollection.forEach(itemDoc => {
-                  let cFootprint = new carbonFootprint(itemDoc.data().fuelPrice, itemDoc.data().fuelUsed,
+            array.push(user);
+            let dbComments = firebase.firestore().collection('users/' + doc.id + '/carbonFootprint/');
+            dbComments.where("status", "==", "pending").onSnapshot(itemsCollection => {
+              user.carbonFootprint = []; // Empty array
+              itemsCollection.forEach(itemDoc => {
+                let cFootprint = new carbonFootprint(itemDoc.data().fuelPrice, itemDoc.data().fuelUsed,
                   itemDoc.data().numOfVehicles, itemDoc.data().fuelco2,
                   itemDoc.data().electPrice, itemDoc.data().electco2,
                   itemDoc.data().gasPrice, itemDoc.data().gasco2,
                   itemDoc.data().numOfFacilities,
-                  itemDoc.data().carbonFootprint, itemDoc.data().dateFilled.toDate(), itemDoc.data().status, itemDoc.data().email ,itemDoc.id);
-                  
-                  // if(cFootprint != [])
-                  user.carbonFootprint.push(cFootprint)
-                });
-                observer.next(user.carbonFootprint)
-              })
+                  itemDoc.data().carbonFootprint, itemDoc.data().dateFilled.toDate(), itemDoc.data().status, itemDoc.data().ecoRating, itemDoc.data().email, itemDoc.id);
+
+                // if(cFootprint != [])
+                user.carbonFootprint.push(cFootprint)
+              });
+              observer.next(user.carbonFootprint)
+            })
 
           } catch (error) { }
 
@@ -397,9 +502,10 @@ export class UserService {
 
   }
 
-  createTransactionHistory(id: string, transactionHistory: transactionHistory[]) {
-
+  createTransactionHistory(id: string, transactionHistory: any[]) {
+    // console.log(id)
     for (let transaction of transactionHistory) {
+      console.log(transaction)
       return firebase.firestore().collection('users/' + id + '/transactionHistory/').add({
 
         name: transaction.name,
@@ -407,9 +513,44 @@ export class UserService {
         quantity: transaction.quantity,
         date: transaction.date,
         price: transaction.price,
+        image: transaction.image,
       })
     }
   }
+
+
+  getTransactionHistory(id: string) {
+    return firebase.firestore().collection('users').doc(id).get().then(doc => {
+      let user = new User(doc.data().email, doc.data().username, doc.data().password, doc.data().type, doc.data().status, doc.data().imageURL, doc.data().uen, doc.id);
+
+      return firebase.firestore().collection('users/' + id + '/transactionHistory/').orderBy('date', 'desc').get().then(collection => {
+        user.transactionHistory = []; // Empty array
+        collection.forEach(doc => {
+          let transaction = new transactionHistory(doc.data().name, doc.data().description,
+            doc.data().quantity, doc.data().date.toDate(), doc.data().price, doc.data().image, doc.id);
+
+          user.transactionHistory.push(transaction);
+        })
+        return user.transactionHistory;
+      });
+    });
+  }
+
+  getCrowdFTransactions(id: string): Observable<any> {
+    return new Observable((observer) => {
+      let dbComments = firebase.firestore().collection('users/' + id + '/transactionHistory/');
+      dbComments.orderBy('date', 'desc').onSnapshot(itemsCollection => {
+        let transactArray = []; // Empty array
+        itemsCollection.forEach(itemDoc => {
+          let transaction = new transactionHistory(itemDoc.data().name, itemDoc.data().description,
+            itemDoc.data().quantity, itemDoc.data().date.toDate(), itemDoc.data().price, itemDoc.data().image, itemDoc.id);
+          transactArray.push(transaction);
+        });
+        observer.next(transactArray);
+      });
+    });
+  }
+
 
   createVote(id: string, votes: Votes[]) {
 
@@ -450,19 +591,19 @@ export class UserService {
   }
 
   createEducationRecommendations(id: string, tags: []) {
-      return firebase.firestore().collection('users/' + id + '/educationRecommendation/').add({
-        tags: tags
-      })
-    
+    return firebase.firestore().collection('users/' + id + '/educationRecommendation/').add({
+      tags: tags
+    })
+
   }
 
   updateEducationRecommendations(id: string, eduRecId: string, tags: []) {
     const ref = this.userRef.doc(id + '/educationRecommendation/' + eduRecId);
-   
+
     ref.update({
       tags: tags
     });
-  
+
   }
 
   getEducationRecommendations(id: string): Observable<any> {
@@ -481,9 +622,9 @@ export class UserService {
     // observer.next(posts);
   }
 
-  updateUserPicture(id: string, image: any){
+  updateUserPicture(id: string, image: any) {
     // const ref = this.userRef.doc(id);
-   
+
     if (image) {
       const dataUrl = image.changingThisBreaksApplicationSecurity;
       console.log(dataUrl)
@@ -495,14 +636,13 @@ export class UserService {
       });
     }
   }
-   
-  
+
+
   getAllEcoRating(): number {
     return this.rating;
-  } 
-
-  setEcoRating(rating: number){
-    this.rating = rating;
   }
 
+  setEcoRating(rating: number) {
+    this.rating = rating;
+  }
 }

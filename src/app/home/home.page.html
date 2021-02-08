@@ -6,20 +6,6 @@
     <ion-title class="ion-text-center ion-margin-end ion-margin-top ion-no-padding ion-padding-end" id="color">
         <ion-label><h1><ion-icon name="leaf-outline" class="iconMargin"></ion-icon>GreeniT</h1></ion-label>
     </ion-title>
-    <!-- <ion-grid class="ion-margin"> -->
-      <!-- <ion-row class="ion-justify-content-evenly">
-        <ion-col class="ion-text-center ion-margin-start" size="1">
-          <ion-label id="color">
-            <ion-icon name="person-circle-outline"></ion-icon>
-          </ion-label>
-        </ion-col> -->
-        <!-- <ion-col size="10">
-          <ion-label id="color">
-            Welcome back, {{username}}
-          </ion-label>
-        </ion-col> -->
-      <!-- </ion-row> -->
-    <!-- </ion-grid> -->
   </ion-toolbar>
 </ion-header>
 
@@ -42,19 +28,6 @@
     </ion-row>
   </ion-grid>
   
-  <!-- <ion-card color="success">
-    <div class="ion-text-center">
-      <img src={{userImage}} class="cardImg">
-      <ion-label>
-        <h1>{{userUsername}}&nbsp;<ion-icon name="shield-checkmark-outline" *ngIf = "isBusiness === true"></ion-icon></h1>
-        <P>{{type}}</P>
-        <div *ngIf = "isBusiness === true">
-        <p><ion-icon name="leaf-outline"></ion-icon> 5 <ion-icon name="star-outline"></ion-icon> 4.5</p>
-      </div>
-    </ion-label>
-    </div>
-                    
-  </ion-card> -->
   <ion-grid class="ion-margin">
     <ion-row class="ion-text-center"> 
       <ion-col>
@@ -64,7 +37,7 @@
           </div>       
       </ion-col>
       <ion-col>
-        <div (click)="crowdfuding()">
+        <div (click)="leaderboard()">
         <img src="assets/icon/leaderboard_icon.png" class="img-icon">
         <br>
         <ion-label>Eco-rating LeaderBoard</ion-label>
@@ -115,25 +88,17 @@
         </div>      
       </ion-col>
     </ion-row>
-    <ion-row class="roundedRow ion-margin ion-text-center">
-      <ion-col class="ion-padding">
-        <ion-label>
-          Advertisements
-        </ion-label>
+    <ion-row class="ion-margin-top"></ion-row>
+    <ion-row class="ion-align-items-stretch" style="border-bottom: 1px solid rgb(146, 146, 146); border-top: 1px solid rgb(146, 146, 146);">
+      <ion-col>
+        <img src="assets/images/10-tips.png" class="staticImage">
       </ion-col>
     </ion-row>
-    <ion-row class="roundedRow ion-margin ion-text-center">
-      <ion-col class="ion-padding">
-        <ion-label>
-          Tips (Static)
-        </ion-label>
-      </ion-col>
-    </ion-row>
-    <ion-row class="roundedRow ion-margin ion-text-center">
-      <ion-col class="ion-padding">
-        <ion-label>
-          Campaign (Link)
-        </ion-label>
+    <ion-row class="ion-margin-top"></ion-row>
+    <ion-row class="ion-align-items-stretch">
+      <ion-col>
+        <a href="https://www.grab.com/my/goinggreen/" target="_blank">
+        <img src="assets/images/Featured-Campaign.jpg" class="staticImage"></a>
       </ion-col>
     </ion-row>
   </ion-grid>

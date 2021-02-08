@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { LoadingController, ModalController } from '@ionic/angular';
+import { CarbonfootprintDetailPage } from '../carbonfootprint-detail/carbonfootprint-detail.page';
 import { carbonFootprint } from '../shared/models/carbonFootprint';
 import { Product } from '../shared/models/products';
 import { ProductService } from '../shared/services/product.service';
@@ -276,14 +277,18 @@ export class MarketplaceEcoRatingFilterPage implements OnInit {
           if(carbonFootprint.ecoRating >= rating){
             this.seller.push(carbonFootprint.email)
             for(let products of data){
+              console.log(data)
               if(this.seller.length > 1){
                 for(let p of this.seller){
+                  console.log(products.seller)
+                  console.log(p)
                   if(products.seller == p){
                     if(this.productArray.includes(products.id) == false){
                       this.productArray.push(products.id)
                     }
                   }
                 }
+                console.log(this.productArray)
                 this.productCount = this.productArray.length
               }
               else{

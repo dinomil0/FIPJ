@@ -18,7 +18,7 @@ export class EducationplatformHomePage implements OnInit {
   products: Product;
   imageArray = [];
   allPosts: any;
-  notificationCount: number;
+  notificationCount: number = 0;
   notificationArray: Notifications[] = []
   type: any;
   email: any;
@@ -44,46 +44,27 @@ export class EducationplatformHomePage implements OnInit {
           this.uid = data[u]["uid"]
         }
       })
-  }
 
-  async ngOnInit() {
-    const loading = await this.loadingController.create({
-      spinner: "circular",
-      message: "Please wait..."
-    });
-    await loading.present();
-    // this.prodService.getProductByID("9dTv72VS9Gws07d6PNUb").subscribe(data =>{
-    //   this.products = data
-    //   this.imageArray = this.products.image
-    //   if (this.products != null){
-    //     
-    //   }
-    // })
-
-    this.postsService.getAllPosts().subscribe(allPosts =>{
-      this.allPosts = this.searchPost = allPosts
-      console.log(this.allPosts)
-      this.allPosts.sort((a, b) => (a.datePosted > b.datePosted) ? -1 : 1)
-      if(this.allPosts != null){
-        loading.dismiss();
-      }
-    })
-    
-
-    this.userService.getUser()
+      this.userService.getUserInstant()
       .subscribe(data => {
         for (let i of data) {
           this.postsService.getPostsByWriter(i.email)
             .subscribe(data => {
               for (let post of data) {
                 console.log(post.id)
-                this.postsService.getUnseenNotificationsByUser(post.id)
+                this.postsService.getNotificationsByUser(post.id)
                   .subscribe(data2 => {
-                    this.notificationArray = data2
+                    for(let noti of data2){
+                      if(noti.userNotified == false){
+                        this.notificationArray.push(noti)
+                      }
+                    }
+                    console.log(this.notificationArray)
                     this.notificationCount = this.notificationArray.length
                   })
               }
             })
+          // Get posts based on recommendation
           this.userService.getEducationRecommendations(i.uid).subscribe(recPosts => {
             this.recArray = []
             for (let rec of recPosts) {
@@ -92,8 +73,7 @@ export class EducationplatformHomePage implements OnInit {
                 for (let posts of allPosts) {
                   for (let oneAllPosttag of posts.tags) {
                     for (let oneRectag of rec.tags) {
-                      // console.log(oneRectag)
-                      // console.log(oneAllPosttag)
+                      // Checking if there is a same post inside, due to subscribe
                       if (oneRectag == oneAllPosttag) {
                         if(this.recArray.some(post => post.id == posts.id)){
                           continue;
@@ -103,7 +83,6 @@ export class EducationplatformHomePage implements OnInit {
                       }
                     }
                   }
-                  // console.log(posts.tags)
                 }
               })
 
@@ -112,6 +91,70 @@ export class EducationplatformHomePage implements OnInit {
           })
         }
       })
+  }
+
+  async ngOnInit() {
+    const loading = await this.loadingController.create({
+      spinner: "circular",
+      message: "Please wait..."
+    });
+    await loading.present();
+
+    this.postsService.getAllPosts().subscribe(allPosts =>{
+      this.allPosts = this.searchPost = allPosts
+      this.allPosts.sort((a, b) => (a.datePosted > b.datePosted) ? -1 : 1)
+      if(this.allPosts != null){
+        loading.dismiss();
+      }
+    })
+    
+
+    // this.userService.getUserInstant()
+    //   .subscribe(data => {
+    //     for (let i of data) {
+    //       this.postsService.getPostsByWriter(i.email)
+    //         .subscribe(data => {
+    //           for (let post of data) {
+    //             console.log(post.id)
+    //             this.postsService.getNotificationsByUser(post.id)
+    //               .subscribe(data2 => {
+    //                 for(let noti of data2){
+    //                   if(noti.userNotified == false){
+    //                     this.notificationArray.push(noti)
+    //                   }
+    //                 }
+    //                 console.log(this.notificationArray)
+    //                 this.notificationCount = this.notificationArray.length
+    //               })
+    //           }
+    //         })
+    //       // Get posts based on recommendation
+    //       this.userService.getEducationRecommendations(i.uid).subscribe(recPosts => {
+    //         this.recArray = []
+    //         for (let rec of recPosts) {
+    //           this.postsService.getAllPosts().subscribe(allPosts => {
+    //             // this.recTags = rec.tags
+    //             for (let posts of allPosts) {
+    //               for (let oneAllPosttag of posts.tags) {
+    //                 for (let oneRectag of rec.tags) {
+    //                   // Checking if there is a same post inside, due to subscribe
+    //                   if (oneRectag == oneAllPosttag) {
+    //                     if(this.recArray.some(post => post.id == posts.id)){
+    //                       continue;
+    //                     }else{
+    //                       this.recArray.push(posts)
+    //                     }
+    //                   }
+    //                 }
+    //               }
+    //             }
+    //           })
+
+
+    //         }
+    //       })
+    //     }
+    //   })
 
 
 
@@ -154,7 +197,6 @@ export class EducationplatformHomePage implements OnInit {
     this.analyticsService.logEventRoute(this.email);
     this.analyticsService.logEventComments(this.email, this.type + " clicked into Education Post");
     this.userService.getEducationRecommendations(this.uid).subscribe(rec => {
-      // console.log(rec)
       if (rec == "" || rec == null) {
         this.postsService.getPostByID(id).subscribe(post => {
           this.tagsArray = post.tags

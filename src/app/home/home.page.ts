@@ -12,6 +12,8 @@ import { AnalyticsService } from '../shared/services/analytics.service';
 import { BeansRewardsService } from '../shared/services/beans-rewards.service';
 import { CarbonFootprintService } from '../shared/services/carbon-footprint.service';
 import { carbonFootprint } from '../shared/models/carbonFootprint';
+import { LeaderboardPage } from '../leaderboard/leaderboard.page';
+import { CardsSelectPage } from '../cards-select/cards-select.page';
 
 @Component({
   selector: 'app-home',
@@ -36,6 +38,7 @@ export class HomePage implements OnInit {
   countTodisableButton = 0;
   carbonFootprintArray: carbonFootprint[];
   reportId: any;
+  isReject = false;
 
   constructor(private authService: AuthService,
     private userService: UserService,
@@ -103,14 +106,25 @@ export class HomePage implements OnInit {
         if(data.carbonFootprint[index] != null){
           this.countTodisableButton += 1
         }
+        console.log(data.carbonFootprint[index]["status"])
+        if(data.carbonFootprint[index]["status"] == "approved"){
+          this.isReject = false
+          break;
+        }
+        else if(data.carbonFootprint[index]["status"] == "pending"){
+          this.isReject = false
+        }
+        else{
+          this.isReject = true
+        }
       }
-      if(this.countTodisableButton > 0){
-        this.router.navigate(['/carbon-footprint-summary'])
-      }else{
+      if(this.countTodisableButton == 0 || this.isReject == true){
         const modal = await this.modalController.create({
           component: CarbonFootprintPage
         });
         return await modal.present();
+      }else{
+        this.router.navigate(['/carbon-footprint-summary'])
       }
 
     })  
@@ -124,7 +138,7 @@ export class HomePage implements OnInit {
 
   education(){
     this.analyticsService.logEventRoute(this.email);
-    this.analyticsService.logEventComments(this.email, this.type+ "User clicked into education forum");
+    this.analyticsService.logEventComments(this.email, this.type+ " clicked into education forum");
     this.router.navigate(['/educationtabs'])
   }
 
@@ -134,16 +148,28 @@ export class HomePage implements OnInit {
     this.router.navigate(['/crowdfundingtabs'])
   }
 
-  cards(){
+  async cards(){
     this.analyticsService.logEventRoute(this.email);
     this.analyticsService.logEventComments(this.email, this.type+ " clicked into Cards");
-    this.router.navigate(['/cards'])
+    const modal = await this.modalController.create({
+      component: CardsSelectPage
+      });
+      return await modal.present();
   }
 
   beans(){
     this.analyticsService.logEventRoute(this.email);
     this.analyticsService.logEventComments(this.email, this.type+ " clicked into Rewards");
     this.router.navigate(['/beans-rewards'])
+  }
+
+  async leaderboard(){
+    this.analyticsService.logEventRoute(this.email);
+    this.analyticsService.logEventComments(this.email, this.type+ " clicked into Leaderboard");
+    const modal = await this.modalController.create({
+      component: LeaderboardPage
+      });
+      return await modal.present();
   }
 
   sasva(){

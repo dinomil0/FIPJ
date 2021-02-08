@@ -31,27 +31,42 @@
       <ion-row>
         <ion-label ><h2>{{listing.nameProduct}}</h2></ion-label>
       </ion-row>
+      <ion-row>
+        <ion-label class="fontsizing2" >Raised for: {{listing.username}}</ion-label>
+      </ion-row>
+      <ion-row class="ion-margin-top"></ion-row>
       <ion-row>   
         <ion-label class="fontsizing">{{listing.description }}</ion-label>
       </ion-row>
       <ion-row class="ion-margin-top"></ion-row>
       <ion-row>
-        <ion-label class="fontsizing2" >Raised for: {{listing.username}}</ion-label>
+        <ion-col> <ion-label class="fontReceive" >{{listing.receiveAmt | currency}} Raised</ion-label></ion-col>
       </ion-row>
       <ion-row>
-        <ion-col> <ion-label class="fontReceive" >{{listing.receiveAmt | currency}} </ion-label>/<ion-label> {{listing.goalAmt | currency}}</ion-label></ion-col>
-        
+        <ion-col>
+          /<ion-label> {{listing.goalAmt | currency}}</ion-label></ion-col>
       </ion-row>
       <ion-row>
         <ion-progress-bar color="success" value="{{listing.receiveAmt / listing.goalAmt  }}"></ion-progress-bar>
       </ion-row>
     
+      <div *ngIf="isUser">
       <ion-row class="ion-margin-top">
         <ion-col>
           <!-- <ion-button color="primary" expand="block" [routerLink]="['/crowdfundingdonate',listing.id]">Fund Now</ion-button> -->
           <ion-button color="primary" expand="block" (click)=routeToDonate(listing.id)>Fund Now</ion-button>
         </ion-col>
       </ion-row>
+      </div>
+
+      <div *ngIf="isBusiness">
+        <ion-row class="ion-margin-top">
+          <ion-col>
+            <!-- <ion-button color="primary" expand="block" [routerLink]="['/crowdfundingdonate',listing.id]">Fund Now</ion-button> -->
+            <ion-button color="primary" expand="block" (click)=routeToDonate(listing.id)>VIEW LISTING</ion-button>
+          </ion-col>
+        </ion-row>
+        </div>
      
     </ion-grid>
     

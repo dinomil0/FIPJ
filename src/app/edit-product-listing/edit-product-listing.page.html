@@ -33,13 +33,6 @@
       <div class="verticalLine"></div>
       <ion-textarea formControlName="description" value="{{productDesc}}">Description:</ion-textarea>
     </ion-item>
-    
-    <ion-item lines="none">
-      <ion-icon name="flash-outline" class="color-icon"></ion-icon>
-      <div class="verticalLine"></div>
-      <ion-label>Boost</ion-label>
-      <ion-toggle formControlName="boost" value="{{productBoost}}"></ion-toggle>
-    </ion-item>
 
     <ion-button expand="block" color="secondary" type="submit" (click)="update()">
       Update

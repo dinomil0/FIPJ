@@ -57,5 +57,34 @@
       <ion-icon name="arrow-forward-outline"></ion-icon>
     </ion-item>
   </div>
+  <div class="ion-text-center">
+    <ion-item routerLink="/crowdfunding-pending">
+      <ion-icon name="flag" class="pending-icon"></ion-icon>
+      <div class="verticalLine"></div>
+      <ion-label>
+        View Crowdfunding Pending for Review
+      </ion-label>
+      <ion-icon name="arrow-forward-outline"></ion-icon>
+    </ion-item>
+  </div>
+  <ion-list>
+    <ion-item-divider>
+      <ion-label>
+        <h2>
+          Update
+        </h2>
+      </ion-label>
+    </ion-item-divider>
+  </ion-list>
+  <div class="ion-text-center" (click)="updateAvg()">
+    <ion-item>
+      <ion-icon name="create-outline" color="primary" ></ion-icon>
+      <div class="verticalLine"></div>
+      <ion-label>
+        Industry Carbon Footprint Average
+      </ion-label>
+      <ion-icon name="arrow-forward-outline"></ion-icon>
+    </ion-item>
+  </div>
 
 </ion-content>

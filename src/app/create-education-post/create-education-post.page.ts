@@ -25,8 +25,8 @@ users: User[];
 imgURL;
 photo: SafeResourceUrl
 submitted: boolean = false;
-  email: any;
-  type: string;
+email: any;
+type: string;
 
   constructor(
     private camera: Camera,
@@ -48,6 +48,7 @@ submitted: boolean = false;
   }
 
   add(){
+    console.log(this.addPostForm.value.title)
     this.submitted = true
     let date = new Date()
     if(this.photo == undefined){
@@ -60,25 +61,29 @@ submitted: boolean = false;
         this.email = u.email
         this.type = u.type
         if (this.addPostForm.valid){
-          this.authService.observeAuthState(user => {
+          // this.authService.observeAuthState(user => {
             const post = new Posts(
               this.addPostForm.value.title,
               '',
               date,
               this.addPostForm.value.content,
               u.username,
-              user.email,
+              this.email,
               0,
               this.addPostForm.value.tags,
-              this.photo,
-              ''
+              this.photo
               );
+            // console.log(post)
             this.postService.addPost(post);
             this.analyticsService.logEventRoute(this.email);
             this.analyticsService.logEventComments(this.email, this.type+ " created a post");
-            this.router.navigate(['view-education-post']);
-          })
+            this.router.navigate(['educationtabs/home']);
+           
+          // })
         }
+        this.addPostForm.value.title = ''
+        this.addPostForm.value.content = ''
+        this.addPostForm.value.tags = ''
       }
     })
   }

@@ -1,0 +1,28 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="end">
+      <ion-icon name="close-circle" id="closeIcon" (click)="closeModal()"></ion-icon>
+    </ion-buttons>
+    <ion-title>Industry Average</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <form [formGroup]="editCarbonForm" class="ion-padding">
+    <ion-item>
+      <ion-icon name="leaf-outline" class="color-icon" ></ion-icon>
+      <div class="verticalLine"></div>
+      <ion-input formControlName="carbonAvg" value="{{carbonAvg}}">
+        <ion-label>Average Carbon Footprint:</ion-label>
+      </ion-input>
+    </ion-item>
+
+    <div class="ion-padding-top">
+      <ion-label class="ion-padding" color="medium">Last Updated: {{lastUpdate | date:'d MMM yyyy'}}</ion-label>
+    </div>
+
+    <ion-button expand="block" color="primary" fill="outline" type="submit" (click)="update()" class="ion-margin-top">
+      Update
+    </ion-button>
+  </form>
+</ion-content>

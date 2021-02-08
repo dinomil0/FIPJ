@@ -1,24 +1,43 @@
 
 <ion-header>
  
-  <ion-toolbar color="success-shade">
+  <ion-toolbar color="success-shade" *ngIf="isUser || isBusiness">
     
-    <ion-buttons slot="start" *ngIf="isUser || isBusiness">
+    <ion-buttons slot="start">
       <ion-back-button defaultHref="crowdfundingtabs/crowdfunding"></ion-back-button>
     </ion-buttons>
 
 
 
-    <ion-buttons slot="start" *ngIf="isAdmin">
+    <!-- <ion-buttons slot="start" *ngIf="isAdmin">
       <ion-back-button defaultHref="crowdfunding-pending"></ion-back-button>
-    </ion-buttons>
+    </ion-buttons> -->
 
     <ion-title>Crowdfunding Details</ion-title>
 
-    <ion-buttons slot="end" *ngIf="isAdmin" (click)=editCrowdfunding(crowdId)>
+    <!-- <ion-buttons slot="end" *ngIf="isAdmin" (click)=editCrowdfunding(crowdId)>
       <ion-icon name="create-outline"></ion-icon>
-    </ion-buttons>
+    </ion-buttons> -->
   </ion-toolbar>
+
+<ion-toolbar color="primary" *ngIf="isAdmin">
+    
+  <!-- <ion-buttons slot="start" *ngIf="isUser || isBusiness">
+    <ion-back-button defaultHref="crowdfundingtabs/crowdfunding"></ion-back-button>
+  </ion-buttons> -->
+
+
+
+  <ion-buttons slot="start" *ngIf="isAdmin">
+    <ion-back-button defaultHref="crowdfunding-pending"></ion-back-button>
+  </ion-buttons>
+
+  <ion-title>Crowdfunding Details</ion-title>
+
+  <ion-buttons slot="end" *ngIf="isAdmin" (click)=editCrowdfunding(crowdId)>
+    <ion-icon name="create-outline"></ion-icon>
+  </ion-buttons>
+</ion-toolbar>
 </ion-header>
 
 <ion-content>
@@ -51,14 +70,14 @@
     
 
   </ion-card>
+
   <div *ngIf="isUser">
   <ion-card class="disclaimer">
     <ion-card-content>
-      <ion-icon name="alert-circle-outline"></ion-icon>
-      <ion-label>Disclaimer: Note that by donating you are contributing to a cause. The promise end of the Business may or may not be able to produce what is stated. By donating you hereby understand and have read this message.</ion-label>
+      <ion-icon class="warningIcon" name="alert-circle-outline"></ion-icon>
+      <ion-label class="warningText">Disclaimer: Note that by donating you are contributing to a cause. The promise end of the Business may or may not be able to produce what is stated. By donating you hereby understand and have read this message.</ion-label>
     </ion-card-content>
-  </ion-card>
-    
+  </ion-card>    
   
   <ion-card>
   <ion-card-header>
@@ -99,9 +118,9 @@
   </script> -->
   </div>
 
-  <div *ngIf="isAdmin">
-    <ion-button color="success" expand="block">Approve</ion-button>
-    <ion-button color="danger" expand="block">Delete</ion-button>
+  <div *ngIf="isAdmin && crowdStatus != 'approved'">
+    <ion-button color="success" expand="block" (click)="approveListing()">Approve</ion-button>
+    <ion-button color="danger" expand="block" (click)="deleteListing()">Delete</ion-button>
   </div>
   
 </ion-content>

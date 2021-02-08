@@ -21,7 +21,9 @@ export class TabsPage {
   flaggedProducts: Product[] = [];
   flaggedCount = 0;
   isReview = false;
- 
+  crowdfundingListing: any; 
+  allpending: any;
+  carbonFootprintArray: any[] = [];
 
   constructor(private authService: AuthService,
     private userService: UserService,
@@ -50,14 +52,20 @@ export class TabsPage {
             }
   
       })
-
-    this.productService.getPendingProducts().subscribe(prodData =>{
-      if(prodData.length > 0){
-        this.isReview = true
-      }else{
-        this.isReview = false
-      }
-    })
+      
+      this.userService.getPendingCarbonFootprint().subscribe(allpending =>{
+        this.allpending = allpending
+        if(this.allpending.length == 1){
+          this.carbonFootprintArray.push(allpending)
+        }
+        this.productService.getPendingProducts().subscribe(prodData =>{
+          if(prodData.length > 0 || this.carbonFootprintArray.length > 0){
+            this.isReview = true
+          }else{
+            this.isReview = false
+          }
+        })
+      })
    
     this.router.events.subscribe((event: RouterEvent) => {
       if (event && event.url) {

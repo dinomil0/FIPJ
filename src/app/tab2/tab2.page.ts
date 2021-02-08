@@ -1,10 +1,11 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { AlertController } from '@ionic/angular';
+import { AlertController, ModalController } from '@ionic/angular';
 import { Product } from '../shared/models/products';
 import { AuthService } from '../shared/services/auth.service';
 import { ProductService } from '../shared/services/product.service';
 import { UserService } from '../shared/services/user.service';
+import { UpdateAverageCarbonfootprintPage } from '../update-average-carbonfootprint/update-average-carbonfootprint.page';
 
 @Component({
   selector: 'app-tab2',
@@ -20,6 +21,7 @@ export class Tab2Page {
 
   constructor(private authService: AuthService,
     private userService: UserService,
+    private modalController: ModalController,
     private productService: ProductService,
     private alertController: AlertController,
     private router: Router) {
@@ -40,6 +42,13 @@ export class Tab2Page {
       }
 
     })
+  }
+
+  async updateAvg() {
+    const modal = await this.modalController.create({
+    component: UpdateAverageCarbonfootprintPage
+    });
+    return await modal.present();
   }
 
 

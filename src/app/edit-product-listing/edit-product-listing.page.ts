@@ -60,7 +60,6 @@ export class EditProductListingPage implements OnInit {
       name: new FormControl('', [Validators.required]),
       price: new FormControl(0, [EditProductListingPage.positiveNumber]),
       description: new FormControl('', [Validators.required]),
-      boost: new FormControl(false)
     });
   }
 
@@ -79,12 +78,10 @@ export class EditProductListingPage implements OnInit {
         this.productImage  = data.image;
         this.productPrice = data.price;
         this.productDesc = data.description;
-        this.prodBoost = data.boost;
         this.editProductForm.setValue({
           name: this.productName,
           price: this.productPrice,
           description: this.productDesc,
-          boost: this.prodBoost
         })
         if (this.product != null){
           loading.dismiss();
@@ -117,7 +114,7 @@ export class EditProductListingPage implements OnInit {
           data.rating,
           this.editProductForm.value.description,
           data.flag,
-          this.editProductForm.value.boost,
+          false,
           data.expiryDate,
           data.seller,
           data.id
@@ -126,7 +123,7 @@ export class EditProductListingPage implements OnInit {
         this.productService.update(prod);
         this.analyticsService.logEventRoute(this.email);
         this.analyticsService.logEventComments(this.email, this.type+ " updated listing");
-        this.router.navigate(['view-product-listing']);
+        this.router.navigate(['marketplace-tabs/products']);
       })
     }
   }

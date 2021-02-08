@@ -29,7 +29,7 @@ export class AppComponent {
       icon:'person-circle'
     },
     {
-      title: 'Market Place',
+      title: 'Marketplace',
       url: '/marketplace-tabs',
       icon: 'bag'
     },

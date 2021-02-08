@@ -78,6 +78,7 @@ export class CreateCrowdfundingListingPage implements OnInit {
         }
       })
 
+
       this.createCFlisting = new FormGroup({
         nameProduct: new FormControl('', [Validators.required]),
         ecoRate: new FormControl(0, [CreateCrowdfundingListingPage.positiveNumber]),
@@ -104,7 +105,7 @@ export class CreateCrowdfundingListingPage implements OnInit {
         this.userEmail,
         this.photo,
         undefined,
-        "pending"); // Use name as id
+        "pending"); 
       this.crowdfundingService.createCF(prod);
 
       this.router.navigate(['crowdfundingtabs/home']);

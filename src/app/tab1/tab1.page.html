@@ -3,18 +3,30 @@
     <ion-title>
       Admin Dashboard
     </ion-title>
+    <!-- <ion-button class="colorButton" slot="end" (click)="logout()">Log Out -->
+    <ion-icon name="log-out-outline" class="ion-padding-end" style="font-size: 25px;" slot="end" (click)="logout()">
+    </ion-icon>
+    <!-- </ion-button> -->
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
-  <div *ngIf="isAdmin" class="ion-padding">
+  <div *ngIf="isAdmin" class="ion-no-padding ion-padding-top ion-padding-start ion-padding-start">
     <ion-grid class="ion-padding ion-margin">
       <ion-row>
         <ion-col>
           <ion-item class="ion-text-center">
+            <ion-icon name="cash-outline"></ion-icon>
+            <div class="verticalLine"></div>
+            <ion-label>Total Revenue:</ion-label>
+          </ion-item>
+          <h3 class="ion-text-center">{{revenue | currency}}</h3>
+        </ion-col>
+        <ion-col>
+          <ion-item class="ion-text-center">
             <ion-icon name="person-add-outline"></ion-icon>
             <div class="verticalLine"></div>
-            <ion-label>Total Users:</ion-label>
+            <ion-label>No. of Users:</ion-label>
           </ion-item>
           <h3 class="ion-text-center">{{userCount}}</h3>
         </ion-col>
@@ -22,22 +34,42 @@
           <ion-item class="ion-text-center">
             <ion-icon name="storefront-outline"></ion-icon>
             <div class="verticalLine"></div>
-            <ion-label>Total Business:</ion-label>
+            <ion-label>No. of Business:</ion-label>
           </ion-item>
           <h3 class="ion-text-center">{{BusinessCount}}</h3>
-          
+
         </ion-col>
         <ion-col>
           <ion-item class="ion-text-center">
             <ion-icon name="people-outline"></ion-icon>
             <div class="verticalLine"></div>
             <ion-label>Total Crowdfunding:</ion-label>
-            <ion-icon name="arrow-forward-outline"  [routerLink]="['/total-business']"></ion-icon>
+            <ion-icon name="arrow-forward-outline" [routerLink]="['/crowdfunding-profile']"></ion-icon>
           </ion-item>
           <h3 class="ion-text-center">{{crowdfundingCount}}</h3>
-          
+
         </ion-col>
       </ion-row>
-      </ion-grid>
-    </div>
+    </ion-grid>
+  </div>
+  <ion-list class="ion-no-padding">
+    <ion-item-divider>
+      <ion-label>
+        <h2>
+          Analytics
+        </h2>
+      </ion-label>
+    </ion-item-divider>
+  </ion-list>
+  <ion-grid class="ion-padding-vertical">
+    <ion-row class="ion-text-center">
+      <ion-col>
+        <div (click)="SASViya()">
+          <img src="assets/images/SASViya.png" class="img-icon">
+          <br>
+          <ion-label>SAS Visual Analytics Dashboard</ion-label>
+        </div>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
 </ion-content>

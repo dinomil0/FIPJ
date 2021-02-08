@@ -33,7 +33,15 @@ export class PostsService {
               data.tags,
               data.image,
               doc.id, doc.data().isMinutes, doc.data().isHours, doc.data().minutes, doc.data().hours);
-
+              if (data.image) {
+                const imageRef = firebase.storage().ref().child(doc.id)
+                imageRef.getDownloadURL()
+                  .then(url => {
+                    post.image = url;
+                  }).catch(error => {
+                    console.log(error)
+                  })
+              }
             array.push(post);
             let dbComments = firebase.firestore().collection('posts/' + doc.id + '/comments/');
             dbComments.onSnapshot(itemsCollection => {
@@ -166,6 +174,27 @@ export class PostsService {
     });
   }
 
+  getPostById(id: string): Observable<any> {
+    return new Observable((observer) => {
+      this.postsRef.onSnapshot(collection => {
+        let array = [];
+        collection.forEach(doc => {
+          if (doc.id == id) {
+            let data = doc.data();
+            try {
+              let post = new Posts(data.title, data.subtitle,
+                data.datePosted.toDate(), data.content, data.writtenBy,
+                data.email, data.votes, data.tags, data.image, doc.id, 
+                doc.data().isMinutes, doc.data().isHours, doc.data().minutes, doc.data().hours)
+              array.push(post);
+            } catch (error) { }
+          }
+        });
+        observer.next(array);
+      });
+    });
+  }
+
   updateUserNotified(postId: string, commentId: string) {
     let dbItems1 = firebase.firestore().collection('posts/' + postId + '/notifications/')
     dbItems1.onSnapshot(itemsCollection => {
@@ -235,6 +264,44 @@ export class PostsService {
     });
   }
 
+  getCommentsByWriter(email: string): Observable<any> {
+    return new Observable((observer) => {
+      this.postsRef.onSnapshot((querySnapshot) => {
+        let posts = [];
+        querySnapshot.forEach((doc) => {
+          let data = doc.data();
+          if (data.email == email) {
+            let p = new Posts(data.title, data.subtitle, data.datePosted.toDate(), data.content, data.writtenBy, data.email, data.votes, data.tags, data.image, doc.id,
+              doc.data().isMinutes, doc.data().isHours, doc.data().minutes, doc.data().hours);
+            if (data.image) {
+              const imageRef = firebase.storage().ref().child(doc.id)
+              imageRef.getDownloadURL()
+                .then(url => {
+                  p.image = url;
+                }).catch(error => {
+                  console.log(error)
+                })
+            }
+            posts.push(p);
+
+            let dbComments = firebase.firestore().collection('posts/' + doc.id + '/comments/');
+            dbComments.onSnapshot(itemsCollection => {
+              p.comments = [];
+              itemsCollection.forEach(itemDoc => {
+                let comment = new Comments(itemDoc.data().content, itemDoc.data().username,
+                  itemDoc.data().datePosted.toDate(),
+                  itemDoc.data().votes, itemDoc.data().flag, itemDoc.id,
+                  itemDoc.data().isMinutes, itemDoc.data().isHours, itemDoc.data().minutes, itemDoc.data().hours);
+                p.comments.push(comment);
+              });
+              observer.next(p.comments);
+            });
+          }
+        });
+      });
+    });
+  }
+
   getCommentsDATETIME(id: string): Observable<any> {
     return new Observable((observer) => {
       let dbComments = firebase.firestore().collection('posts/' + id + '/comments/');
@@ -254,50 +321,50 @@ export class PostsService {
   }
 
 
-getComments(id: string): Observable<any> {
-  return new Observable((observer) => {
-    this.postsRef.onSnapshot((querySnapshot) => {
-      let posts = [];
-      querySnapshot.forEach((doc) => {
-        let data = doc.data();
-        let p = new Posts(doc.data().title, doc.data().subtitle, doc.data().datePosted, doc.data().content,
-          doc.data().writtenBy, doc.data().votes, doc.data().tags, doc.data().image, doc.id);
-        posts.push(p);
+  getComments(id: string): Observable<any> {
+    return new Observable((observer) => {
+      this.postsRef.onSnapshot((querySnapshot) => {
+        let posts = [];
+        querySnapshot.forEach((doc) => {
+          let data = doc.data();
+          let p = new Posts(doc.data().title, doc.data().subtitle, doc.data().datePosted, doc.data().content,
+            doc.data().writtenBy, doc.data().votes, doc.data().tags, doc.data().image, doc.id);
+          posts.push(p);
 
-        let dbComments = firebase.firestore().collection('posts/' + id + '/comments/');
-        dbComments.orderBy('datePosted', 'desc').onSnapshot(itemsCollection => {
-          p.comments = []; // Empty array
-          itemsCollection.forEach(itemDoc => {
-            let comment = new Comments(itemDoc.data().content, itemDoc.data().username,
-              itemDoc.data().datePosted.toDate(),
-              itemDoc.data().votes, itemDoc.data().flag, itemDoc.id);
-            p.comments.push(comment);
-            p.count = p.comments.length
+          let dbComments = firebase.firestore().collection('posts/' + id + '/comments/');
+          dbComments.orderBy('datePosted', 'desc').onSnapshot(itemsCollection => {
+            p.comments = []; // Empty array
+            itemsCollection.forEach(itemDoc => {
+              let comment = new Comments(itemDoc.data().content, itemDoc.data().username,
+                itemDoc.data().datePosted.toDate(),
+                itemDoc.data().votes, itemDoc.data().flag, itemDoc.id);
+              p.comments.push(comment);
+              p.count = p.comments.length
+            });
+            observer.next(p.comments);
           });
-          observer.next(p.comments);
         });
+        // observer.next(posts);
       });
-      // observer.next(posts);
     });
-  });
-}
-
-async delete (p: Posts) {
-  const ref = this.postsRef.doc(p.id);
-  ref.delete();
-}
-
-createComments(id: string, comments: Comments[]) {
-  for (let comment of comments) {
-    return firebase.firestore().collection('posts/' + id + '/comments/').add({
-      content: comment.content,
-      username: comment.username,
-      datePosted: comment.datePosted,
-      votes: comment.votes,
-      flag: comment.flag
-    })
   }
-}
+
+  async delete(p: Posts) {
+    const ref = this.postsRef.doc(p.id);
+    ref.delete();
+  }
+
+  createComments(id: string, comments: Comments[]) {
+    for (let comment of comments) {
+      return firebase.firestore().collection('posts/' + id + '/comments/').add({
+        content: comment.content,
+        username: comment.username,
+        datePosted: comment.datePosted,
+        votes: comment.votes,
+        flag: comment.flag
+      })
+    }
+  }
 
   update(p: Posts) {
     const ref = this.postsRef.doc(p.id);

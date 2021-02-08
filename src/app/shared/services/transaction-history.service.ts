@@ -9,12 +9,27 @@ import { Observable } from 'rxjs';
 export class TransactionHistoryService {
   private buyingBeans = [
     new transactionHistory('GreenIT Beans',
-    'Purchase of GreenIT Beans',0,new Date(),0),
+    'Purchase of GreenIT Beans',0,new Date(),0, ''),
   ];
 
-  private checkout = [
+  private usercheckout = [
     new transactionHistory('',
-    '',0,new Date(),0),
+    'Crowd-Funding Purchase',0,new Date(),0, ''),
+  ];
+
+  private businesscheckout = [
+    new transactionHistory('',
+    'Raise from Crowd-Funding',0,new Date(),0, ''),
+  ];
+
+  private userMPcheckout = [
+    new transactionHistory('',
+    'Marketplace Purchase',0,new Date(),0, ''),
+  ];
+
+  private businessMPcheckout = [
+    new transactionHistory('',
+    'Marketplace Sold',0,new Date(),0, ''),
   ];
   
   constructor() { }
@@ -23,7 +38,19 @@ export class TransactionHistoryService {
     return of(this.buyingBeans);
   }
 
-  checkoutSuccess(): Observable<transactionHistory[]> {
-    return of(this.checkout);
+  usercheckoutSuccess(): Observable<transactionHistory[]> {
+    return of(this.usercheckout);
+  }
+
+  businesscheckoutSuccess(): Observable<transactionHistory[]> {
+    return of(this.businesscheckout);
+  }
+
+  userMPcheckoutSuccess(): Observable<transactionHistory[]> {
+    return of(this.userMPcheckout);
+  }
+
+  businessMPcheckoutSuccess(): Observable<transactionHistory[]> {
+    return of(this.businessMPcheckout);
   }
 }

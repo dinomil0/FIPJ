@@ -45,13 +45,6 @@
       </ion-label>
     </ion-item>
 
-    <ion-item lines="none">
-      <ion-icon name="flash-outline" class="color-icon"></ion-icon>
-      <div class="verticalLine"></div>
-      <ion-label>Boost</ion-label>
-      <ion-toggle formControlName="boost"></ion-toggle>
-    </ion-item>
-
     <ion-button expand="block" color="secondary" (click)=add()>Add</ion-button>
 
     <ion-icon name="image-outline" id="image-icon" color="danger" *ngIf="photo == null && submitted"></ion-icon>

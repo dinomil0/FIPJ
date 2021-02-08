@@ -85,7 +85,7 @@ export class UsersProfileEditPage implements OnInit {
       this.userService.updateUserProfile(u);
       this.analyticsService.logEventRoute(this.email);
       this.analyticsService.logEventComments(this.email, this.type+ " updated profile");
-      this.router.navigate(['users-profile']);
+      this.router.navigate(['/users-profile']);
     }
   }
 

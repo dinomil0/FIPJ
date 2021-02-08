@@ -8,8 +8,11 @@
       <ion-icon name="reader-outline"></ion-icon>
     </ion-tab-button>
 
-    <ion-tab-button tab="profile">
+
+    <ion-tab-button tab="profile" *ngIf="isBusiness">
       <ion-icon name="person-circle-outline"></ion-icon>
     </ion-tab-button>
+ 
   </ion-tab-bar>
+
 </ion-tabs>

@@ -20,6 +20,7 @@ export class EducationNotificationPage implements OnInit {
   hours: number;
   email: any;
   type: any;
+  noPost: boolean;
 
   constructor(
     private userService: UserService,
@@ -46,11 +47,20 @@ export class EducationNotificationPage implements OnInit {
               for (let post of data) {
                 this.postsService.getNotificationsByUser(post.id)
                   .subscribe(data => {
+                    console.log(data)
+                    if(data.length == 0){
+                      this.noPost = true;
+                    }
+                    else {
+                      this.noPost = false;
+                    }
+                    // Compute time difference between now and time of comment
                     for (let i of data) {
                       var dateDiff = todayDate.getTime() - i.date.getTime()
                       var dayDiff = dateDiff
                       dateDiff = ((dateDiff / (1000 * 60 * 60)) % 24) * 60 | 0
-                      dayDiff = ((dayDiff / (1000 * 60 * 60 * 24)) % 7)
+                      // dayDiff = ((dayDiff / (1000 * 60 * 60 * 24)) % 7)
+                      dayDiff = (dayDiff / (1000 * 60 * 60 * 24))
                       if (dateDiff < 60) {
                         i.isMinutes = true;
                         i.isHours = false;
@@ -68,11 +78,13 @@ export class EducationNotificationPage implements OnInit {
                           i.isMinutes = false;
                           i.isHours = false;
                         }
+                      //If difference is days, dont need to show minutes and hours
                       if (dayDiff >= 1) {
                         i.isMinutes = false;
                         i.isHours = false;
                       }
                       this.notificationArray.push(i)
+                      console.log(this.notificationArray)
                       this.notificationArray.sort((a, b) => b.date.getTime() - a.date.getTime())
                     }
                   })

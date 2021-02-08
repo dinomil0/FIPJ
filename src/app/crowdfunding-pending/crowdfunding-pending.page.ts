@@ -12,13 +12,14 @@ import { UserService } from '../shared/services/user.service';
 export class CrowdfundingPendingPage implements OnInit {
   crowdfundingListing :Crowdfunding[];
   allCrowdfunding : Crowdfunding[];
+  emptyCheckCrowdFunding = [];
 
   constructor(private crowdfundingService: CrowdfundingService,
     private userService: UserService,private router: Router) {
 
       this.crowdfundingService.getPendingCrowdListing()
       .subscribe(data => {
-      this.crowdfundingListing = this.allCrowdfunding = data;
+      this.emptyCheckCrowdFunding = this.crowdfundingListing = this.allCrowdfunding = data;
         console.log(this.crowdfundingListing)
      });
      }

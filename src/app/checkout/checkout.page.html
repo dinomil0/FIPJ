@@ -8,28 +8,231 @@
 </ion-header>
 
 <ion-content>
-  <ion-button (click)="pay()">
-    Pay
-  </ion-button>
-  <div class="ion-padding">
-    <strong>Select Payment Method</strong>
+  <div class="ion-padding-start ion-padding-end ion-padding-bottom">
+    <!-- Address -->
+    <div *ngIf="isUser">
+      <ion-item lines="none" class="ion-no-padding">
+        <ion-icon name="pin-outline" style="color:orange"></ion-icon>
+        <div class="verticalLine"></div>
+        <ion-label>
+          Delivery Address
+        </ion-label>
+      </ion-item>
+      <ion-item lines="none" class="ion-no-padding addressLine">
+        <ion-label class="ion-padding-start" class="addressText">
+          180 Ang Mo Kio Ave 8, Singapore 569830
+        </ion-label>
+        <ion-icon name="chevron-forward-outline"></ion-icon>
+      </ion-item>
+      <hr>
+    </div>
+
+    <div *ngIf='!isUser'>
+      <ion-list class="ion-no-padding">
+        <ion-item-divider class="ion-no-padding">
+          <ion-label>
+            <h2>
+              Cart Items
+            </h2>
+          </ion-label>
+        </ion-item-divider>
+      </ion-list>
+
+      <ion-list class="ion-no-padding">
+        <ion-item>
+          <ion-thumbnail slot="start">
+            <img [src]="beanImage">
+            <!-- <img src="assets/icon/beans.png"> -->
+          </ion-thumbnail>
+          <ion-grid>
+            <ion-row>
+              <ion-col>
+                <ion-label>
+                  <h3>{{beanName}}</h3>
+                  <p>Quantity: {{beansQuantity}}</p>
+                </ion-label>
+                <ion-label>
+                  <p>{{beansPrice | currency}}</p>
+                </ion-label>
+              </ion-col>
+            </ion-row>
+          </ion-grid>
+        </ion-item>
+      </ion-list>
+
+      <ion-item lines="none">
+        <ion-label>
+          Order Total (1 item):
+        </ion-label>
+        <ion-label style="text-align: right;">
+          <strong class="totalprice">{{beansPrice | currency}}</strong>
+        </ion-label>
+      </ion-item>
+      <div class="addressText"></div>
+    </div>
+
+    <div *ngIf='isUser'>
+      <!-- Checkout Products -->
+      <ion-list class="ion-no-padding">
+        <ion-item-divider class="ion-no-padding">
+          <ion-label>
+            <h2>
+              Cart Items
+            </h2>
+          </ion-label>
+        </ion-item-divider>
+      </ion-list>
+      <!-- cart for loop -->
+
+      <ion-list *ngFor='let item of cartItem' class="ion-no-padding">
+        <ion-item>
+          <ion-thumbnail slot="start">
+            <img [src]="item.imgURL">
+            <!-- <img src="assets/icon/beans.png"> -->
+          </ion-thumbnail>
+          <ion-grid>
+            <ion-row>
+              <ion-col>
+                <ion-label>
+                  <h3>{{item.name}}</h3>
+                  <p>Quantity: {{item.quantity}}</p>
+                </ion-label>
+                <ion-label>
+                  <p>{{item.price | currency}}</p>
+                </ion-label>
+              </ion-col>
+            </ion-row>
+          </ion-grid>
+        </ion-item>
+      </ion-list>
+
+
+      <!-- Total -->
+      <ion-item lines="none">
+        <ion-label>
+          Order Total ({{cartCount}} item):
+        </ion-label>
+        <ion-label style="text-align: right;">
+          <strong class="totalprice">{{totalPrice | currency}}</strong>
+        </ion-label>
+      </ion-item>
+      <div class="addressText"></div>
+
+      <!-- Redeem Beans -->
+      <ion-list class="ion-no-padding">
+        <ion-item-divider class="ion-no-padding">
+          <ion-label>
+            <h2>
+              Redeem beans
+            </h2>
+          </ion-label>
+        </ion-item-divider>
+      </ion-list>
+      <ion-item class="ion-no-padding">
+        <img src="assets/icon/beans.png" class="beans">
+        <div class="verticalLine"></div>
+        <ion-grid>
+          <ion-row>
+            <ion-col>
+              <ion-label>
+                Redeem {{NoOfBeans}} beans
+                <ion-text color="medium">
+                  [-{{beanDiscount | currency}}]
+                </ion-text>
+              </ion-label>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+        <ion-label style="text-align: right;" color="medium">
+          <form [formGroup]="beanForm">
+          <ion-toggle id='switchValue' formControlName="toggle"></ion-toggle>
+        </form>
+        </ion-label>
+      </ion-item>
+      <ion-list class="ion-no-padding">
+        <ion-item-divider class="ion-no-padding">
+          <ion-label>
+            <h2>
+              Total Payment Amount
+            </h2>
+          </ion-label>
+        </ion-item-divider>
+      </ion-list>
+      <ion-item>
+        <ion-label>
+          Subtotal
+        </ion-label>
+        <ion-label style="text-align: right;">
+          {{totalPrice | currency}}
+        </ion-label>
+      </ion-item>
+      <ion-item *ngIf='beanForm.value.toggle'>
+        <ion-label>
+          Bean Discount
+        </ion-label>
+        <ion-label style="text-align: right;">
+          -{{beanDiscount | currency}}
+        </ion-label>
+      </ion-item>
+      <ion-item>
+        <ion-label>
+          Total
+        </ion-label>
+        <ion-label *ngIf='beanForm.value.toggle' style="text-align: right;">
+          {{discountedPrice | currency}}
+        </ion-label>
+        <ion-label *ngIf='!beanForm.value.toggle' style="text-align: right;">
+          {{totalPrice | currency}}
+        </ion-label>
+      </ion-item>
+    </div>
+
+    <!-- Payment Method -->
+    <ion-list class="ion-no-padding ion-padding-bottom">
+      <ion-item-divider class="ion-no-padding" lines="none">
+        <ion-label>
+          <h2>
+            Select Payment Method
+          </h2>
+        </ion-label>
+      </ion-item-divider>
+    </ion-list>
+    <ion-grid>
+      <ion-row>
+        <ion-col id="payments">
+          <ion-icon name="card" id="paymentIcon"></ion-icon>
+          <ion-label id="paymentName">Credit/Debit Card</ion-label><br>
+          <ion-label id="paymentDesc" class="ion-margin-top" (click)="addCards()" *ngIf="cardCheck == false">Tap to add
+            card</ion-label>
+          <ion-label id="paymentDesc" class="ion-margin-top" (click)="selectCards()"
+            *ngIf="cardCheck == true && cardType == ''">Select a card</ion-label>
+          <ion-label id="paymentDesc" class="ion-margin-top" (click)="selectCards()" *ngIf="cardCheck == true">
+            {{cardType}} {{cardNum}}</ion-label>
+        </ion-col>
+        <!-- <ion-col class="ion-margin-start" id="payments">
+          <ion-icon name="logo-paypal" id="paymentIcon"></ion-icon>
+          <ion-label id="paymentName">Paypal</ion-label><br>
+          <ion-label id="paymentDesc" class="ion-margin-top">Checkout through PayPal</ion-label>
+        </ion-col> -->
+      </ion-row>
+    </ion-grid>
+
+    <ion-grid>
+      <ion-row>
+        <ion-col class="ion-padding">
+          <ion-button expand="block" fill="outline" (click)="pay()">
+            Pay
+          </ion-button>
+        </ion-col>
+        <ion-col class="ion-padding">
+          <div id="paypal-button-container"></div>
+        </ion-col>
+
+      </ion-row>
+    </ion-grid>
+
+
+
   </div>
-  <ion-grid>
-    <ion-row>
-      <ion-col id="payments">
-        <ion-icon name="card" id="paymentIcon"></ion-icon>
-        <ion-label id="paymentName">Credit/Debit Card</ion-label><br>
-        <ion-label id="paymentDesc" class="ion-margin-top" (click)="addCards()" *ngIf="cardCheck == false">Tap to add card</ion-label>
-        <ion-label id="paymentDesc" class="ion-margin-top" (click)="selectCards()" *ngIf="cardCheck == true && cardType == ''">Select a card</ion-label>
-        <ion-label id="paymentDesc" class="ion-margin-top" (click)="selectCards()" *ngIf="cardCheck == true">{{cardType}} {{cardNum}}</ion-label>
-      </ion-col>
-      <ion-col class="ion-margin-start" id="payments">
-        <ion-icon name="logo-paypal" id="paymentIcon"></ion-icon>
-        <ion-label id="paymentName">Paypal</ion-label><br>
-        <ion-label id="paymentDesc" class="ion-margin-top">Checkout through PayPal</ion-label>
-      </ion-col>
-    </ion-row>
-  </ion-grid>
-  <div id="paypal-button-container"></div>
-  </ion-content>
- 
+
+</ion-content>

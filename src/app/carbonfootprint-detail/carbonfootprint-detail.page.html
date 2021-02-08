@@ -1,0 +1,193 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="carbonfootprint-pending"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Carbon Footprint Review</ion-title>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+  <ion-card>
+    <h3 style="text-transform: capitalize" class="ion-padding-start">{{corpName}}</h3>
+
+      <div class="ion-text-center">
+        <ion-item class="ion-text-center ion-padding-top ion-margin-top">
+          <ion-icon name="leaf-outline" class="leaf-icon"></ion-icon>
+          <div class="verticalLine"></div>
+          <ion-label>Estimated Carbon Footprint Produced</ion-label>
+        </ion-item>
+        <h3 class="ion-text-center">{{carbonFootprint}}&nbsp;kg/CO2</h3>
+        <ion-item class="ion-text-center ion-margin-bottom">
+          <div class="verticalLine"></div>
+          <ion-label>Eco-rating: {{ecoRating}}</ion-label>
+        </ion-item>
+        <!-- 1 star rating -->
+        <ion-label *ngIf="ecoRating == 1">
+          <ion-icon name="leaf-outline" class="leaf-icon leaf-fontsize"></ion-icon>
+          <ion-icon name="leaf-outline" class="leaf-fontsize"></ion-icon>
+          <ion-icon name="leaf-outline" class="leaf-fontsize"></ion-icon>
+          <ion-icon name="leaf-outline" class="leaf-fontsize"></ion-icon>
+          <ion-icon name="leaf-outline" class="leaf-fontsize"></ion-icon>
+        </ion-label>
+        <!-- 2 star rating -->
+        <ion-label *ngIf="ecoRating == 2">
+          <ion-icon name="leaf-outline" class="leaf-icon leaf-fontsize"></ion-icon>
+          <ion-icon name="leaf-outline" class="leaf-icon leaf-fontsize"></ion-icon>
+          <ion-icon name="leaf-outline" class="leaf-fontsize"></ion-icon>
+          <ion-icon name="leaf-outline" class="leaf-fontsize"></ion-icon>
+          <ion-icon name="leaf-outline" class="leaf-fontsize"></ion-icon>
+        </ion-label>
+        <!-- 3 star rating -->
+        <ion-label *ngIf="ecoRating == 3">
+          <ion-icon name="leaf-outline" class="leaf-icon leaf-fontsize"></ion-icon>
+          <ion-icon name="leaf-outline" class="leaf-icon leaf-fontsize"></ion-icon>
+          <ion-icon name="leaf-outline" class="leaf-icon leaf-fontsize"></ion-icon>
+          <ion-icon name="leaf-outline" class="leaf-fontsize"></ion-icon>
+          <ion-icon name="leaf-outline" class="leaf-fontsize"></ion-icon>
+        </ion-label>
+        <!-- 4 star rating -->
+        <ion-label *ngIf="ecoRating == 4">
+          <ion-icon name="leaf-outline" class="leaf-icon leaf-fontsize"></ion-icon>
+          <ion-icon name="leaf-outline" class="leaf-icon leaf-fontsize"></ion-icon>
+          <ion-icon name="leaf-outline" class="leaf-icon leaf-fontsize"></ion-icon>
+          <ion-icon name="leaf-outline" class="leaf-icon leaf-fontsize"></ion-icon>
+          <ion-icon name="leaf-outline" class="leaf-fontsize"></ion-icon>
+        </ion-label>
+        <!-- 5 star rating -->
+        <ion-label *ngIf="ecoRating == 5">
+          <ion-icon name="leaf-outline" class="leaf-icon leaf-fontsize"></ion-icon>
+          <ion-icon name="leaf-outline" class="leaf-icon leaf-fontsize"></ion-icon>
+          <ion-icon name="leaf-outline" class="leaf-icon leaf-fontsize"></ion-icon>
+          <ion-icon name="leaf-outline" class="leaf-icon leaf-fontsize"></ion-icon>
+          <ion-icon name="leaf-outline" class="leaf-icon leaf-fontsize"></ion-icon>
+        </ion-label>
+      </div>
+    <ion-card-content *ngFor="let carbon of fpArray">
+      <ion-item-divider class="ion-no-padding">
+        <ion-label>
+          <h2>
+            Fuel Used
+          </h2>
+        </ion-label>
+      </ion-item-divider>
+      <ion-grid>
+        <ion-row>
+          <ion-col>
+            <ion-label>
+              Fuel Price:
+              {{carbon.fuelPrice | currency}}
+            </ion-label>
+          </ion-col>
+          <ion-col>
+            <ion-label>
+              Fuel Type:
+              {{carbon.fuelUsed}}
+            </ion-label>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col>
+            <ion-label>
+              Number of Vehicles:
+              {{carbon.numOfVehicles}}
+            </ion-label>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col>
+            <ion-label>
+              <strong>
+                Total CO2 produce for Fuel:
+                {{carbon.fuelco2 | number:'1.2-2'}}&nbsp;kg/CO2
+              </strong>         
+            </ion-label>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+      <ion-item-divider class="ion-no-padding">
+        <ion-label>
+          <h2>
+            Electricity Used
+          </h2>
+        </ion-label>
+      </ion-item-divider>
+      <ion-grid>
+        <ion-row>
+          <ion-col>
+            <ion-label>
+              Electricity Price:
+              {{carbon.electPrice | currency}}
+            </ion-label>
+          </ion-col>    
+        </ion-row>
+        <ion-row>
+          <ion-col>
+            <ion-label>
+              <strong>
+                Total CO2 produce for Electricity:
+                {{carbon.electco2 | number:'1.2-2'}}&nbsp;kg/CO2
+              </strong>         
+            </ion-label>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+      <ion-item-divider class="ion-no-padding">
+        <ion-label>
+          <h2>
+            Gas Used
+          </h2>
+        </ion-label>
+      </ion-item-divider>
+      <ion-grid>
+        <ion-row>
+          <ion-col>
+            <ion-label>
+              Gas Price:
+              {{carbon.gasPrice | currency}}
+            </ion-label>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col>
+            <ion-label>
+              <strong>
+                Total CO2 produce for Gas:
+                {{carbon.gasco2 | number:'1.2-2'}}&nbsp;kg/CO2
+              </strong>         
+            </ion-label>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+     
+    </ion-card-content>
+    <ion-card>
+      <ion-card-header class="ion-no-padding ion-padding-start">
+        <h4>Carbon Emissions Produced from each section</h4>
+      </ion-card-header>
+      <ion-card-content>
+        <canvas #doughnutCanvas></canvas>
+      </ion-card-content>
+    </ion-card>
+    <ion-grid *ngFor="let carbon of fpArray">
+      <ion-row>
+        <ion-col>
+          <ion-button expand="block" class="reject" color="danger-shade"  type="submit" fill="outline"
+            (click)="reject(carbon)">
+            <ion-label>
+              Reject
+            </ion-label>
+          </ion-button>
+        </ion-col>
+        <ion-col>
+          <ion-button expand="block" class="approve" color="success-shade" type="submit" fill="outline"
+            (click)="approve(carbon)">
+            <ion-label>
+              Approve
+            </ion-label>
+          </ion-button>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </ion-card>
+
+</ion-content>

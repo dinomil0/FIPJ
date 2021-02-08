@@ -6,6 +6,7 @@ export class transactionHistory {
       public quantity: number,
       public date: Date,
       public price: number,
+      public image: string,
       public id?: string,   
       ) { }
   

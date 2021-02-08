@@ -1,0 +1,56 @@
+<ion-header>
+  <ion-toolbar color="success-shade">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="marketplace-tabs/home"></ion-back-button>
+    </ion-buttons>
+    <ion-title text-center>Shopping Cart</ion-title>
+    <!-- <ion-buttons slot="end">
+      <ion-button (click)="toCheckout()">Checkout</ion-button>
+    </ion-buttons> -->
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-list *ngFor="let p of productArray">
+    <ion-item-sliding>
+      <ion-item>
+        <ion-thumbnail class='imgPadding'>
+          <img [src]="p.imgURL">
+        </ion-thumbnail>
+        <!-- <ion-label (click)="productDetails(p.productID)"> -->
+          <!-- <h5>{{p.name}}</h5>
+          <p>Quantity: {{p.quantity}}</p> -->
+
+          <ion-label>
+          <h5 (click)="productDetails(p.productID)">{{p.name}}</h5>
+          <ion-row>
+          <ion-col size="1">
+            <ion-icon name="remove-circle" (click)="minusQuantity(p.productID)" item-left></ion-icon>
+          </ion-col>
+          <ion-col class="ion-text-center">
+            <p>Quantity: {{p.quantity}}</p>
+          </ion-col>
+          <ion-col size="1">
+            <ion-icon name="add-circle" (click)="plusQuantity(p.productID)" item-right></ion-icon>
+          </ion-col>
+        </ion-row>
+
+        </ion-label>
+      </ion-item>
+      <ion-item-options side="end">
+        <button ion-button id="color" type="submit" (click)="deleteCartItem(p.productID)">
+          <ion-icon name="trash-outline" id="color"></ion-icon><br>Delete
+        </button>
+      </ion-item-options>
+    </ion-item-sliding>
+  </ion-list>
+  <ion-label *ngIf = "productArray == 0" class="ion-padding-start ion-padding-top" style="text-align:center;">
+    No items in cart
+  </ion-label>
+
+  <ion-footer *ngIf = "productArray != 0">
+    <ion-buttons slot="" class="ion-float-right" id="cartFooter">
+      <ion-button (click)="toCheckout()">Checkout</ion-button>
+    </ion-buttons>
+  </ion-footer>
+</ion-content>

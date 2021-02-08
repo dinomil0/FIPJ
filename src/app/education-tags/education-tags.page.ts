@@ -57,8 +57,10 @@ export class EducationTagsPage implements OnInit {
 
   educationDetails(id: string) {
     let count = 0
+    // Google Analytics Log
     this.analyticsService.logEventRoute(this.email);
     this.analyticsService.logEventComments(this.email, this.type + " clicked into Education Post");
+    
     this.userService.getEducationRecommendations(this.uid).subscribe(rec =>{
       // console.log(rec)
       if(rec == "" || rec == null){

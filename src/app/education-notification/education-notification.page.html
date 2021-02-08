@@ -1,7 +1,7 @@
 <ion-header>
   <ion-toolbar color="success-shade">
     <ion-buttons slot="start">
-      <ion-back-button defaultHref="educationplatform-home"></ion-back-button>
+      <ion-icon name="arrow-back-outline" id="arrow-back" routerLink="/educationplatform-home"></ion-icon>
     </ion-buttons>
     <ion-title>Education Notifiactions
     </ion-title>
@@ -9,11 +9,11 @@
 </ion-header>
 
 <ion-content>
+  <div class="noNotifications">
+    <ion-label color="medium" *ngIf="noPost == true">Currently, you have no notifications</ion-label>
+  </div>
   <ion-list class="ion-no-padding" *ngFor="let noti of notificationArray">
     <ion-item (click) = postDetails(noti.postId,noti.commentId)>
-      <!-- <ion-thumbnail slot="start">
-        <img [src]=item.image>
-      </ion-thumbnail> -->
       <ion-grid>
         <ion-row>
           <ion-col>

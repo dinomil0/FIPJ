@@ -1,9 +1,40 @@
 <ion-header>
-  <ion-toolbar>
-    <ion-title>leaderboard</ion-title>
+  <ion-toolbar color='secondary-shade'>
+    <ion-buttons slot="end">
+      <ion-icon name="close-circle" id="closeIcon" (click)="closeModal()"></ion-icon>
+    </ion-buttons>
+    <ion-title class="ion-text-center ion-margin-end ion-margin-top ion-no-padding ion-padding-end" id="color">
+        <ion-label><h1>Eco-Rating Leaderboard</h1></ion-label>
+    </ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
-
+  <div class="ion-text-center ion-padding">
+    <ion-icon name="trophy" id="trophyColor"></ion-icon>
+    <ion-label id="ecoRatedText" color="medium">Top Eco-Rated Businesses</ion-label>
+  </div>
+  <ion-label *ngIf="noBusiness == true" class="ion-margin"> There are currently no businesses</ion-label>
+  <ion-list *ngFor="let users of userArray"> 
+    <ion-item>
+      <ion-icon name="trophy" id="trophyFirst" class="ion-margin-end" *ngIf="users.username == first"></ion-icon>
+      <ion-icon name="trophy" id="trophySecond" class="ion-margin-end" *ngIf="users.username == second"></ion-icon>
+      <ion-icon name="trophy" id="trophyThird" class="ion-margin-end" *ngIf="users.username == third"></ion-icon>
+      <ion-avatar>
+        <img [src]="users.imageURL">
+      </ion-avatar>
+      <ion-grid>
+        <ion-row>
+          <ion-col>
+            <ion-label id="usernameText" class="ion-text-wrap">
+              {{users.username}}
+            </ion-label>
+          </ion-col>
+          <ion-col size="2">
+            <ion-label><ion-icon name="leaf-outline" id="leafColor"></ion-icon> {{users.ecorating}}</ion-label>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-item>
+  </ion-list>
 </ion-content>

@@ -1,0 +1,172 @@
+<ion-header>
+  <ion-toolbar color="success-shade" *ngIf="isBusiness">
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    
+    <ion-title>My Crowdfunding</ion-title>
+    <!-- <ion-title *ngIf="isAdmin">All Crowdfunding Listing</ion-title> -->
+        <!-- <ion-buttons slot="end" [routerLink]="['/users-profile-edit',userId]">
+          <ion-icon name="create-outline"></ion-icon>
+        </ion-buttons> -->
+  </ion-toolbar>
+
+  <ion-toolbar color="primary" *ngIf="isAdmin">
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    
+    <!-- <ion-title *ngIf="isBusiness">My Crowdfunding</ion-title> -->
+    <ion-title>All Crowdfunding Listing</ion-title>
+        <!-- <ion-buttons slot="end" [routerLink]="['/users-profile-edit',userId]">
+          <ion-icon name="create-outline"></ion-icon>
+        </ion-buttons> -->
+  </ion-toolbar>
+</ion-header>
+
+
+
+<ion-content >
+  <ion-searchbar *ngIf="isBusiness" (ionChange)=search($event) (ionClear)=cancelSearch($event) class="searchBar"></ion-searchbar>
+  <ion-searchbar *ngIf="isAdmin" (ionChange)=searchAdmin($event) (ionClear)=cancelSearch($event) class="searchBar"></ion-searchbar>
+ 
+  <div *ngIf=isBusiness>
+    <ion-item>
+      <ion-label class="fontReceive">
+        Total Funds received:
+      </ion-label>
+      <ion-label class="ion-text-center">
+         {{RA | currency : 'SGD' : '$' : '1.0-0'}} / {{GA | currency : 'SGD' : '$' : '1.0-0'}}
+      </ion-label>
+    </ion-item>
+  <ion-card size-sm *ngFor="let listing of allCrowdfunding">
+    <img class="imageAdjust"[src]=listing.image>
+    <ion-grid>
+      <ion-row>
+        <ion-icon color="success" name="leaf" *ngIf="listing.ecoRating >= 1"></ion-icon>
+        <ion-icon color="success" name="leaf" *ngIf="listing.ecoRating >= 2"></ion-icon>
+        <ion-icon color="success" name="leaf" *ngIf="listing.ecoRating >= 3"></ion-icon>
+        <ion-icon color="success" name="leaf" *ngIf="listing.ecoRating >= 4"></ion-icon>
+        <ion-icon color="success" name="leaf" *ngIf="listing.ecoRating >= 5"></ion-icon>
+      </ion-row>
+      <ion-row *ngIf="listing.status === 'pending'">
+        <ion-label color="warning" class="pendingText">
+          <ion-icon name="alert-circle-outline"></ion-icon> Pending
+      </ion-label>
+      </ion-row>
+      <ion-row *ngIf="listing.status === 'approved'">
+        <ion-label color="success" class="verifiedText">
+          <ion-icon name="checkmark-done-circle-outline"></ion-icon> Verified
+        </ion-label>
+      </ion-row>
+      <ion-row>
+      </ion-row>
+      <ion-row>
+        <ion-label ><h2>{{listing.nameProduct}}</h2></ion-label>
+      </ion-row>
+      <ion-row>   
+        <ion-label class="fontsizing">{{listing.description }}</ion-label>
+      </ion-row>
+      <ion-row class="ion-margin-top"></ion-row>
+      <ion-row>
+        <ion-label class="fontsizing2" >Raised for: {{listing.username}}</ion-label>
+      </ion-row>
+      <ion-row>
+        <ion-col> <ion-label class="fontReceive" >{{listing.receiveAmt | currency}} </ion-label>/<ion-label> {{listing.goalAmt | currency}}</ion-label></ion-col>
+        
+      </ion-row>
+      <ion-row>
+        <ion-progress-bar color="success" value="{{listing.receiveAmt / listing.goalAmt  }}"></ion-progress-bar>
+      </ion-row>
+    
+      <ion-row class="ion-margin-top">
+        <ion-col>
+          <!-- <ion-button color="primary" expand="block" [routerLink]="['/crowdfundingdonate',listing.id]">Fund Now</ion-button> -->
+          <ion-button color="primary" expand="block" (click)= routeToView(listing.id)>VIEW LISTING</ion-button>
+        </ion-col>
+      </ion-row>
+     
+    </ion-grid>
+    
+  </ion-card>
+</div>
+
+
+<div *ngIf="isAdmin">
+  <ion-item>
+  <ion-grid>
+    <ion-row>
+      <ion-col>
+        <ion-label class="fontReceive">
+          Total Comissions Earned:
+        </ion-label></ion-col>
+        <ion-col>
+          <ion-label class="ion-text-center">
+            {{RAA *0.02 | currency : 'SGD' : '$' : '1.0-0'}} 
+         </ion-label>
+        </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col>
+        <ion-label class="fontReceive">
+          Total Funds Recevied: 
+        </ion-label>
+      </ion-col>
+      <ion-col>
+        <ion-label class="ion-text-center">{{RAA | currency : 'SGD' : '$' : '1.0-0'}} / {{GAA | currency : 'SGD' : '$' : '1.0-0'}}</ion-label>
+    </ion-col>
+    </ion-row>
+    
+</ion-grid>
+</ion-item>
+  <ion-card size-sm *ngFor="let listing of allCrowdfundingAdmin">
+    <div *ngIf="listing.status === 'approved'">
+    <img class="imageAdjust"[src]=listing.image>
+    <ion-grid>
+      <ion-row>
+        <ion-icon color="success" name="leaf" *ngIf="listing.ecoRating >= 1"></ion-icon>
+        <ion-icon color="success" name="leaf" *ngIf="listing.ecoRating >= 2"></ion-icon>
+        <ion-icon color="success" name="leaf" *ngIf="listing.ecoRating >= 3"></ion-icon>
+        <ion-icon color="success" name="leaf" *ngIf="listing.ecoRating >= 4"></ion-icon>
+        <ion-icon color="success" name="leaf" *ngIf="listing.ecoRating >= 5"></ion-icon>
+      </ion-row>
+      <ion-row>
+      </ion-row>
+      <ion-row>
+        <ion-label ><h2>{{listing.nameProduct}}</h2></ion-label>
+      </ion-row>
+      <ion-row>   
+        <ion-label class="fontsizing">{{listing.description }}</ion-label>
+      </ion-row>
+      <ion-row class="ion-margin-top"></ion-row>
+      <ion-row>
+        <ion-label class="fontsizing2" >Raised for: {{listing.username}}</ion-label>
+      </ion-row>
+      <ion-row>
+        <ion-col> <ion-label class="fontReceive" >{{listing.receiveAmt | currency}} </ion-label>/<ion-label> {{listing.goalAmt | currency}}</ion-label></ion-col>
+        
+      </ion-row>
+      <ion-row>
+        <ion-progress-bar color="success" value="{{listing.receiveAmt / listing.goalAmt  }}"></ion-progress-bar>
+      </ion-row>
+    
+      <ion-row class="ion-margin-top">
+        <ion-col>
+          <!-- <ion-button color="primary" expand="block" [routerLink]="['/crowdfundingdonate',listing.id]">Fund Now</ion-button> -->
+          <ion-button color="primary" expand="block" (click)=routeToView(listing.id)>VIEW LISTING</ion-button>
+        </ion-col>
+      </ion-row>
+      <ion-row class="ion-margin-top">
+        <ion-col>
+          <!-- <ion-button color="primary" expand="block" [routerLink]="['/crowdfundingdonate',listing.id]">Fund Now</ion-button> -->
+          <ion-button color="danger" expand="block" (click)= deleteListing(listing)>DELETE</ion-button>
+        </ion-col>
+      </ion-row>
+     
+    </ion-grid>
+    
+  </div>
+  </ion-card>
+
+</div>
+</ion-content>

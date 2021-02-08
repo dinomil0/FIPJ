@@ -1,0 +1,28 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Add to cart</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <form [formGroup]="quantityForm">
+    <ion-item>
+      <ion-icon name="remove-circle" (click)="minusQuantity()" item-left></ion-icon>
+      <ion-input type="number" min="1" formControlName="inputQuantity" [(ngModel)]="userQuantity"
+        class="ion-text-center" placeholder="Enter Quantity"></ion-input>
+      <ion-icon name="add-circle" (click)="plusQuantity()" item-right></ion-icon>
+    </ion-item>
+    <ion-item *ngIf="quantityForm.controls.inputQuantity.errors">
+      <!-- <ion-item> -->
+      <ion-label color="danger">
+        Quantity must be positive
+      </ion-label>
+    </ion-item>
+    <ion-grid>
+      <ion-row class="ion-align-items-center">
+        <ion-button type="submit" class="btn btn-primary" (click)="submitQuantity()" class="centerBtn">Add to cart
+        </ion-button>
+      </ion-row>
+    </ion-grid>
+  </form>
+</ion-content>

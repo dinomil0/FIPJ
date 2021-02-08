@@ -152,7 +152,7 @@ export class RegistrationBusinessPage implements OnInit {
                       createUser+=1
                     if (create) {
                       // await loading.dismiss();
-                      this.authService.sendVerficationEmail()
+                      // this.authService.sendVerficationEmail()
                       this.router.navigate(['/login'])
                       this.presentAlert('Success', 'You are registered')
   

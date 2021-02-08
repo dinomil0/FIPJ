@@ -16,3 +16,14 @@ ion-toolbar{
   .leaf-fontsize{
     font-size: 30px;
   }
+
+.center {
+  margin: 0;
+  position: absolute;
+  top: 45%;
+  left: 50%;
+  -ms-transform: translate(-40%, -50%);
+  transform: translate(-50%, -50%);
+  text-align: center;
+  font-weight: bold;
+}

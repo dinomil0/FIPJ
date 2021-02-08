@@ -78,19 +78,10 @@ export class EditAccountsPage implements OnInit {
   }
 
   update() {
+    
     if (this.editUserForm.valid) {
-      const u = new User(
-        this.editUserForm.value.email,
-        this.editUserForm.value.username,
-        this.editUserForm.value.password,
-        this.editUserForm.value.type,
-        this.editUserForm.value.status,
-        this.editUserForm.value.imageURL, // No image
-        this.editUserForm.value.shippingAddress,
-        this.editUserForm.value.bio,
-        this.userId);
-     
-      this.userService.update(u);
+      this.userService.update(this.userId, this.editUserForm.value.username ,this.editUserForm.value.status);
+
       this.analyticsService.logEventRoute(this.email);
       this.analyticsService.logEventComments(this.email, this.type+ " updated profile");
       this.router.navigate(['tabs/tab3']);

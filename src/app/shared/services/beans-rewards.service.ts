@@ -43,7 +43,7 @@ export class BeansRewardsService {
   getBeansById(email: any) {
     return firebase.firestore().collection('beans').doc(email).get().then(doc => {
       let bean = new Beans(doc.data().beans, doc.id);
-      return firebase.firestore().collection('beans/' + email + '/beansHistory/').get().then(collection => {
+      return firebase.firestore().collection('beans/' + email + '/beansHistory/').orderBy("date" ,"desc").get().then(collection => {
         bean.beansHistory = []; // Empty array
         collection.forEach(doc => {
           let beanHistory = new beansHistory(doc.data().title, doc.data().description,

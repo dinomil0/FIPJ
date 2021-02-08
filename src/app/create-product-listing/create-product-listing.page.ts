@@ -56,7 +56,6 @@ email: any;
         name: new FormControl('', [Validators.required]),
         price: new FormControl(0, [CreateProductListingPage.positiveNumber]),
         description: new FormControl('', [Validators.required]),
-        boost: new FormControl(false)
         });
       let str = 'Sustainable Water Bottle'
       console.log(str.toLowerCase().includes('water bottle'))
@@ -77,14 +76,14 @@ email: any;
           0,
           this.addProductForm.value.description,
           "false",
-          this.addProductForm.value.boost,
+          false,
           false,
           user.email,
           '');
         this.productService.add(prod);
         this.analyticsService.logEventRoute(this.email);
         this.analyticsService.logEventComments(this.email, this.type+ " created a listing");
-        this.router.navigate(['view-product-listing']);
+        this.router.navigate(['marketplace-tabs/products']);
       })
       this.userService.getAllUsers()
       .subscribe(data => {

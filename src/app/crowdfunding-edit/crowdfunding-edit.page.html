@@ -1,9 +1,58 @@
 <ion-header>
-  <ion-toolbar>
-    <ion-title>crowdfunding-edit</ion-title>
+ 
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title>Edit Crowdfunding Listing</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
-  {{crowdId}}
+  <form [formGroup]="editCFlisting">
+    <ion-item>
+      <ion-icon name="bookmark-outline" class="color-icon"></ion-icon>
+      <div class="verticalLine"></div>
+      <ion-input formControlName="nameProduct">
+        <ion-label>Product Name:</ion-label>
+      </ion-input>
+      <ion-label *ngIf="editCFlisting.controls.nameProduct.errors && submitted" color="danger">
+        Name is required
+      </ion-label>
+    </ion-item>
+    
+    <ion-item>
+      <ion-icon name="leaf-outline" class="ion-padding-end" class="color-icon"></ion-icon>
+      <div class="verticalLine"></div>
+      <ion-input type="number" formControlName="ecoRate">
+        <ion-label>Eco Rating:</ion-label>
+      </ion-input>
+      <ion-label *ngIf="editCFlisting.controls.ecoRate.errors && submitted" color="danger">
+        Eco rating of 1 to 5
+      </ion-label>
+    </ion-item>
+
+    <ion-item>
+      <ion-icon name="pricetag-outline" class="ion-padding-end" class="color-icon"></ion-icon>
+      <div class="verticalLine"></div>
+      <ion-input type="number" formControlName="goalAmt" disabled>
+        <ion-label>Goal ($):</ion-label>
+      </ion-input>
+      <ion-label *ngIf="editCFlisting.controls.goalAmt.errors && submitted" color="danger">
+        provide a Goal Amount
+      </ion-label>
+    </ion-item>
+
+    <ion-item>
+      <ion-icon name="document-text-outline" class="ion-padding-end ion-padding-top" class="color-icon" id="reader-icon"></ion-icon>
+      <div class="verticalLine"></div>
+      <ion-textarea formControlName="description" id="description">Description:</ion-textarea>
+      <ion-label *ngIf="editCFlisting.controls.description.errors && submitted" color="danger">
+        Description is required
+      </ion-label>
+    </ion-item>
+
+
+    <ion-button expand="block" color="secondary" (click)=updateCFListing()>Update</ion-button>
+  </form>
 </ion-content>

@@ -43,7 +43,7 @@ export class RegistrationPage implements OnInit {
     this.categories = ['User', 'Business'];
 
 
-    //Get saved list of students
+    //Get saved list of acra
     this.acraService.getList().subscribe(response => {
       // console.log(response);
       this.acraData = response;
@@ -104,11 +104,12 @@ export class RegistrationPage implements OnInit {
             }
           }
           if (accountExist == false) {
-            // console.log("goINACCOUNTEXISTfalse")
+            console.log("goINACCOUNTEXISTfalse")
               if (this.signupForm.value.category == "User") {
                 if (createUser == 0){
+                  console.log("createAuth")
                   const res = this.authService.signup(this.signupForm.value.email, this.signupForm.value.password)
-
+                  console.log(this.signupForm.value.username, this.signupForm.value.category)
                   this.userService.createUser(this.signupForm.value.email,
                     this.signupForm.value.username,
                     this.signupForm.value.password,
@@ -156,7 +157,7 @@ export class RegistrationPage implements OnInit {
                       createUser+=1
                     if (create) {
                       // await loading.dismiss();
-                      this.authService.sendVerficationEmail()
+                      // this.authService.sendVerficationEmail()
                       this.router.navigate(['/login'])
                       this.presentAlert('Success', 'You are registered')
   
@@ -171,9 +172,6 @@ export class RegistrationPage implements OnInit {
 
                 }
               }
-              // accountExist = true;
-              // this.router.navigate(['/home'])
-              // count +=1
             
           }
 
